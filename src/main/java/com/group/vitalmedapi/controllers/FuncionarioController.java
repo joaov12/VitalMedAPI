@@ -13,6 +13,8 @@ import com.group.vitalmedapi.models.Funcionario;
 import com.group.vitalmedapi.services.FuncionarioService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -32,4 +34,8 @@ public class FuncionarioController {
        return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.findById(id));
     }
     
+    @PostMapping("/add")
+    public ResponseEntity<Funcionario> addFuncionario(@RequestBody Funcionario funcionario) {
+       return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.addFuncionario(funcionario));
+    }
 }

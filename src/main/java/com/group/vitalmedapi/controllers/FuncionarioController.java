@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.group.vitalmedapi.models.Funcionario;
 import com.group.vitalmedapi.services.FuncionarioService;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,4 +46,11 @@ public class FuncionarioController {
     public ResponseEntity<Funcionario> editFuncionario(@RequestBody Funcionario funcionario) {
        return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.updateFuncionario(funcionario));
     }
+
+    
+   @DeleteMapping("/delete/{id}")
+   public ResponseEntity<?> deleteFuncionario(@PathVariable("id") Long id) {
+      funcionarioService.deleteFuncionario(id); 
+      return ResponseEntity.status(HttpStatus.OK).body("Funcionario deletado com sucesso");
+   }
 }

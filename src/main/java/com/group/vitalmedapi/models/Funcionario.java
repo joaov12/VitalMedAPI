@@ -25,4 +25,60 @@ public class Funcionario {
     private String Telefone;
     private String Endereco;
 
+    
+
+    public Funcionario(Long id, String nome, Date dataNascimento, Date dataContratacao, double salario, String telefone,
+            String endereco) {
+        this.id = id;
+        Nome = nome;
+        DataNascimento = dataNascimento;
+        DataContratacao = dataContratacao;
+        Salario = salario;
+        Telefone = telefone;
+        Endereco = endereco;
+    }
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public String getNome() {
+        return Nome;
+    }
+    public void setNome(String nome) {
+        Nome = nome;
+    }
+    public Date getDataNascimento() {
+        return DataNascimento;
+    }
+    public void setDataNascimento(Date dataNascimento) {
+        DataNascimento = dataNascimento;
+    }
+    public Date getDataContratacao() {
+        return DataContratacao;
+    }
+    public void setDataContratacao(Date dataContratacao) {
+        DataContratacao = dataContratacao;
+    }
+    public double getSalario() {
+        return Salario;
+    }
+    public void setSalario(double salario) {
+        Salario = salario;
+    }
+    public String getTelefone() {
+        return Telefone;
+    }
+    public void setTelefone(String telefone) {
+        Telefone = telefone;
+    }
+    public String getEndereco() {
+        return Endereco;
+    }
+    public void setEndereco(String endereco) {
+        Endereco = endereco;
+    }
+
+    
 }

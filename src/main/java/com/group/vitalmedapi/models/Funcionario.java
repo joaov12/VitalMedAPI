@@ -27,9 +27,8 @@ public class Funcionario {
 
     
 
-    public Funcionario(Long id, String nome, Date dataNascimento, Date dataContratacao, double salario, String telefone,
+    public Funcionario(String nome, Date dataNascimento, Date dataContratacao, double salario, String telefone,
             String endereco) {
-        this.id = id;
         Nome = nome;
         DataNascimento = dataNascimento;
         DataContratacao = dataContratacao;

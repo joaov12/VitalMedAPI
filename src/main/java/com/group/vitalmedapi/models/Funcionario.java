@@ -27,6 +27,8 @@ public class Funcionario {
 
     
 
+    public Funcionario() {
+    }
     public Funcionario(String nome, Date dataNascimento, Date dataContratacao, double salario, String telefone,
             String endereco) {
         Nome = nome;

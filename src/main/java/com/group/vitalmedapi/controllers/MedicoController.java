@@ -19,7 +19,7 @@ import com.group.vitalmedapi.models.Medico;
 import com.group.vitalmedapi.services.MedicoService;
 
 @RestController
-@RequestMapping("/funcionarios")
+@RequestMapping("/medicos")
 public class MedicoController {
     @Autowired
     MedicoService medicoService;

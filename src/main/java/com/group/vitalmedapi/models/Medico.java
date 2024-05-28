@@ -16,8 +16,8 @@ public class Medico extends Funcionario {
 
     public Medico(){}
     public Medico(String nome, Date dataNascimento, Date dataContratacao, double salario, String telefone,
-            String endereco, String crm) {
-        super(nome, dataNascimento, dataContratacao, salario, telefone, endereco);
+            String endereco, String crm, Departamento departamento) {
+        super(nome, dataNascimento, dataContratacao, salario, telefone, endereco, departamento);
         this.crm = crm;
     }
 

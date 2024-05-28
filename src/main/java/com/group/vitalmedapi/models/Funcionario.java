@@ -2,13 +2,14 @@ package com.group.vitalmedapi.models;
 
 import java.util.Date;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,7 +19,6 @@ public class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false, updatable = false)
     private Long id;
 
     private String Nome;
@@ -27,19 +27,23 @@ public class Funcionario {
     private double Salario;
     private String Telefone;
     private String Endereco;
+    @ManyToOne
+    @JoinColumn(name = "departamento_id")
+    private Departamento departamento;
 
     
 
     public Funcionario() {
     }
     public Funcionario(String nome, Date dataNascimento, Date dataContratacao, double salario, String telefone,
-            String endereco) {
+            String endereco, Departamento departamento) {
         Nome = nome;
         DataNascimento = dataNascimento;
         DataContratacao = dataContratacao;
         Salario = salario;
         Telefone = telefone;
         Endereco = endereco;
+        this.departamento = departamento;
     }
     public Long getId() {
         return id;
@@ -83,6 +87,12 @@ public class Funcionario {
     public void setEndereco(String endereco) {
         Endereco = endereco;
     }
+    public Departamento getDepartamento() {
+        return departamento;
+    }
 
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
+    }
     
 }

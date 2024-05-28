@@ -12,8 +12,8 @@ public class Enfermeiro extends Funcionario {
 
     public Enfermeiro() {}
     public Enfermeiro(String nome, Date dataNascimento, Date dataContratacao, double salario, String telefone,
-            String endereco, String coren) {
-        super(nome, dataNascimento, dataContratacao, salario, telefone, endereco);
+            String endereco, String coren, Departamento departamento) {
+        super(nome, dataNascimento, dataContratacao, salario, telefone, endereco, departamento);
         this.coren = coren;
     }
 

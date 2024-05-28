@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,5 +44,12 @@ public class DepartamentoController {
     public ResponseEntity<Departamento> editDepartamento(@RequestBody Departamento departamento) {
        return ResponseEntity.status(HttpStatus.OK).body(departamentoService.updateDepartamento(departamento));
     }
+
+            
+   @DeleteMapping("/delete/{id}")
+   public ResponseEntity<?> deleteDepartamento(@PathVariable("id") Long id) {
+      departamentoService.deleteDepartamento(id); 
+      return ResponseEntity.status(HttpStatus.OK).body("Departamento deletado com sucesso"); // Todo: Mudar a mensagem, deixar uma padrão
+   }
 
 }

@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,5 +30,10 @@ public class EnfermeiroController {
     @GetMapping("/find/{id}")
     public ResponseEntity<Optional<Enfermeiro>> getEnfermeiroById(@PathVariable("id") Long id) {
        return ResponseEntity.status(HttpStatus.OK).body(enfermeiroService.findById(id));
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<Enfermeiro> addEnfermeiro(@RequestBody Enfermeiro enfermeiro) {
+       return ResponseEntity.status(HttpStatus.CREATED).body(enfermeiroService.addEnfermeiro(enfermeiro));
     }
 }

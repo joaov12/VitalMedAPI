@@ -53,4 +53,9 @@ public class Departamento {
         this.funcionarios = funcionarios;
     }
 
+    public void addFuncionario(Funcionario funcionario) {
+        this.funcionarios.add(funcionario);
+        funcionario.setDepartamento(this);
+    }
+
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group.vitalmedapi.models.Departamento;
+import com.group.vitalmedapi.models.dtos.AddFuncionarioToDepartamentoDTO;
 import com.group.vitalmedapi.services.DepartamentoService;
 
 @RestController
@@ -50,6 +51,12 @@ public class DepartamentoController {
    public ResponseEntity<?> deleteDepartamento(@PathVariable("id") Long id) {
       departamentoService.deleteDepartamento(id); 
       return ResponseEntity.status(HttpStatus.OK).body("Departamento deletado com sucesso"); // Todo: Mudar a mensagem, deixar uma padrão
+   }
+
+   @PutMapping("/addFuncionario")
+   public ResponseEntity<Departamento> addFuncionarioToDepartamento(@RequestBody AddFuncionarioToDepartamentoDTO dto) {
+       Departamento departamento = departamentoService.addFuncionarioToDepartamento(dto);
+       return ResponseEntity.ok(departamento);
    }
 
 }

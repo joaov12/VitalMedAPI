@@ -2,6 +2,8 @@ package com.group.vitalmedapi.models;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,6 +31,7 @@ public class Funcionario {
     private String Endereco;
     @ManyToOne
     @JoinColumn(name = "departamento_id")
+    @JsonIgnore
     private Departamento departamento;
 
     

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group.vitalmedapi.models.Consulta;
+import com.group.vitalmedapi.models.dtos.CreateConsultaDTO;
 import com.group.vitalmedapi.services.ConsultaService;
 
 @RestController
@@ -48,5 +49,12 @@ public class ConsultaController {
     public ResponseEntity<?> deleteConsulta(@PathVariable("id") Long id) {
        consultaService.deleteConsulta(id); 
        return ResponseEntity.status(HttpStatus.OK).body("Consulta deletada com sucesso"); 
+    }
+
+    // Criar consulta passando apenas Id do médico e paciente + informações necessárias
+    @PostMapping("/create")
+    public ResponseEntity<?> createConsulta(@RequestBody CreateConsultaDTO dto) {
+        Consulta consulta = consultaService.createConsulta(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(consulta);
     }
 }

@@ -2,12 +2,15 @@ package com.group.vitalmedapi.models.dtos;
 
 import java.util.Date;
 
+import com.group.vitalmedapi.enums.StatusProcedimentoEnum;
+
 public class CreateConsultaDTO {
     private Date dataHora;
     private Long medicoId;
     private Long pacienteId;
     private String motivoDaConsulta;
-    
+    private StatusProcedimentoEnum statusProcedimento;
+
     public Date getDataHora() {
         return dataHora;
     }
@@ -31,6 +34,12 @@ public class CreateConsultaDTO {
     }
     public void setMotivoDaConsulta(String motivoDaConsulta) {
         this.motivoDaConsulta = motivoDaConsulta;
+    }
+    public StatusProcedimentoEnum getStatusProcedimento() {
+        return statusProcedimento;
+    }
+    public void setStatusProcedimento(StatusProcedimentoEnum statusProcedimento) {
+        this.statusProcedimento = statusProcedimento;
     }
 
     

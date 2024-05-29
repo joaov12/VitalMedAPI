@@ -25,16 +25,4 @@ public class FuncionarioService {
     public Optional<Funcionario> findById(Long id) {
 		return funcionarioRepository.findById(id);
 	}
-
-    public Funcionario addFuncionario(Funcionario funcionario) {
-        return funcionarioRepository.save(funcionario);
-    }
-
-    public Funcionario updateFuncionario(Funcionario funcionario) {
-        return funcionarioRepository.save(funcionario);
-    }
-
-    public void deleteFuncionario(Long id) {
-        funcionarioRepository.deleteById(id);
-    }
 }

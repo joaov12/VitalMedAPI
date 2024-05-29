@@ -3,6 +3,8 @@ package com.group.vitalmedapi.models;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -14,6 +16,7 @@ public class Medico extends Funcionario {
     
     @Column(nullable = false, updatable = false)
     private String crm;
+    @JsonIgnore
     @OneToMany(mappedBy = "medico")
     private List<Consulta> consultas;
 

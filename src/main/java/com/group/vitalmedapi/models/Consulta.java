@@ -28,6 +28,7 @@ public class Consulta {
 
     private StatusProcedimentoEnum statusProcedimento;
 
+    public Consulta(){}
     public Consulta(Medico medico, Paciente paciente, Date dataMarcada, String motivoDaConsulta,
             StatusProcedimentoEnum statusProcedimento) {
         this.medico = medico;

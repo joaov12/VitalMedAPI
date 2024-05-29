@@ -58,5 +58,4 @@ public class DepartamentoController {
        Departamento departamento = departamentoService.addFuncionarioToDepartamento(dto);
        return ResponseEntity.ok(departamento);
    }
-
 }

@@ -48,6 +48,6 @@ public class EnfermeiroController {
    @DeleteMapping("/delete/{id}")
    public ResponseEntity<?> deleteEnfermeiro(@PathVariable("id") Long id) {
       enfermeiroService.deleteEnfermeiro(id); 
-      return ResponseEntity.status(HttpStatus.OK).body("Enfermeiro deletado com sucesso"); // Todo: Mudar a mensagem, deixar uma padrão
+      return ResponseEntity.status(HttpStatus.OK).body("Enfermeiro deletado com sucesso"); 
    }
 }

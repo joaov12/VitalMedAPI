@@ -1,11 +1,13 @@
 package com.group.vitalmedapi.models;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,6 +23,9 @@ public class Paciente {
     private String Telefone;
     private String Endereco;
     private String ObservacoesPaciente;
+
+    @OneToMany(mappedBy = "paciente")
+    private List<Consulta> consultas;
 
     public Paciente(){}
     public Paciente(String nome, Date dataNascimento, String telefone, String endereco, String observacoesPaciente) {
@@ -66,5 +71,12 @@ public class Paciente {
     }
     public void setObservacoesPaciente(String observacoesPaciente) {
         ObservacoesPaciente = observacoesPaciente;
-    } 
+    }
+    public List<Consulta> getConsultas() {
+        return consultas;
+    }
+    public void setConsultas(List<Consulta> consultas) {
+        this.consultas = consultas;
+    }
+     
 }

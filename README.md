@@ -9,30 +9,6 @@ Este projeto está sendo desenvolvido para a disciplina de Desenvolvimento Web I
   [![My Skills](https://skillicons.dev/icons?i=mysql)](https://git-scm.com)
   [![My Skills](https://skillicons.dev/icons?i=git)](https://git-scm.com)
 
-## 🏗️ Diagramas
-
-<details>
-  <summary>Diagrama de Caso de Uso</summary>
-  
-  ![Diagrama de Caso de Uso](caminho/para/POR_DIAGRAMA_AQUI.png)
-  
-</details>
-
-<details>
-  <summary>Diagrama de Classe</summary>
-  
-  ![Diagrama de Classe](caminho/para/por_diagrama_aqui.png)
-  
-</details>
-
-<details>
-  <summary>Diagrama de Banco de dados</summary>
-  
-  ![Diagrama de Banco de dados](caminho/para/por_diagrama_aqui.png)
-  
-</details>
-
-
 ## 🚀 Como Executar o Projeto
 
 ### Pré-requisitos

@@ -1,8 +1,10 @@
 package com.group.vitalmedapi.models;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -10,6 +12,10 @@ import jakarta.persistence.Table;
 public class Enfermeiro extends Funcionario {
     private String coren;
 
+    @ManyToMany(mappedBy = "enfermeiros")
+    private List<Cirurgia> cirurgias;
+
+  
     public Enfermeiro() {}
     public Enfermeiro(String nome, Date dataNascimento, Date dataContratacao, double salario, String telefone,
             String endereco, String coren, Departamento departamento) {
@@ -27,5 +33,11 @@ public class Enfermeiro extends Funcionario {
 
     public void setCoren(String coren) {
         this.coren = coren;
+    }
+    public List<Cirurgia> getCirurgias() {
+        return cirurgias;
+    }
+    public void setCirurgias(List<Cirurgia> cirurgias) {
+        this.cirurgias = cirurgias;
     }
 }

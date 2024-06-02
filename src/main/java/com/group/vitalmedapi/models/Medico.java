@@ -16,9 +16,14 @@ public class Medico extends Funcionario {
     
     @Column(nullable = false, updatable = false)
     private String crm;
+
     @JsonIgnore
     @OneToMany(mappedBy = "medico")
     private List<Consulta> consultas;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "medico")
+    private List<Cirurgia> cirurgias;
 
     public Medico(){}
     public Medico(String nome, Date dataNascimento, Date dataContratacao, double salario, String telefone,

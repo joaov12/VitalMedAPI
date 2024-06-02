@@ -26,10 +26,16 @@ public class Paciente {
     private String Endereco;
     private String ObservacoesPaciente;
 
+
+
     
     @JsonIgnore
     @OneToMany(mappedBy = "paciente")
     private List<Consulta> consultas;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "paciente")
+    private List<Cirurgia> cirurgias;
 
     public Paciente(){}
     public Paciente(String nome, Date dataNascimento, String telefone, String endereco, String observacoesPaciente) {
@@ -83,4 +89,10 @@ public class Paciente {
         this.consultas = consultas;
     }
      
+    public List<Cirurgia> getCirurgias() {
+        return cirurgias;
+    }
+    public void setCirurgias(List<Cirurgia> cirurgias) {
+        this.cirurgias = cirurgias;
+    }
 }

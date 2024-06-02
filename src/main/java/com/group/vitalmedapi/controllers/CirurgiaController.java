@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group.vitalmedapi.models.Cirurgia;
+import com.group.vitalmedapi.models.dtos.CreateCirurgiaDTO;
 import com.group.vitalmedapi.services.CirurgiaService;
 
 @RestController
@@ -51,4 +52,8 @@ public class CirurgiaController {
        return ResponseEntity.status(HttpStatus.OK).body("Cirurgia deletada com sucesso"); 
     }
 
+    @PostMapping("/createWID")
+    public Cirurgia criarCirurgia(@RequestBody CreateCirurgiaDTO createCirurgiaDTO) {
+        return cirurgiaService.createCirurgia(createCirurgiaDTO);
+    }
 }

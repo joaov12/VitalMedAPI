@@ -52,7 +52,7 @@ public class ConsultaController {
     }
 
     // Criar consulta passando apenas Id do médico e paciente + informações necessárias
-    @PostMapping("/create")
+    @PostMapping("/createWID")
     public ResponseEntity<?> createConsulta(@RequestBody CreateConsultaDTO dto) {
         Consulta consulta = consultaService.createConsulta(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(consulta);

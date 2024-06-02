@@ -3,6 +3,8 @@ package com.group.vitalmedapi.models;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
@@ -13,6 +15,7 @@ public class Enfermeiro extends Funcionario {
     private String coren;
 
     @ManyToMany(mappedBy = "enfermeiros")
+    @JsonIgnore
     private List<Cirurgia> cirurgias;
 
   

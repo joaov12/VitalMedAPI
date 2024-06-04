@@ -50,6 +50,14 @@ Este projeto está sendo desenvolvido para a disciplina de Desenvolvimento Web I
 
    A aplicação estará disponível no endereço `http://localhost:8080`.
 
+4. **Acesse a API no Swagger**
+
+    A aplicação estará disponível no endereço:
+
+   `http://localhost:8080/swagger-ui/index.html`
+
+   ![swagger](/assets/swagger.png)
+
 ## 🌐 Endpoints da API (Em desenvolvimento)
 
 Aqui estão alguns dos principais endpoints disponíveis na API:
@@ -74,6 +82,10 @@ Aqui estão alguns dos principais endpoints disponíveis na API:
   - `GET /consultas/{id}`: Consulta uma consulta pelo ID
   - `PUT /consultas/{id}`: Atualiza os dados de uma consulta
   - `DELETE /consultas/{id}`: Cancela uma consulta
+
+---
+
+   🔜🔜🔜🔜🔜🔜🔜🔜🔜
 
 
 ## 💻 Desenvolvedores

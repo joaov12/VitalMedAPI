@@ -51,7 +51,7 @@ public class CirurgiaService {
         cirurgiaRepository.deleteById(id);
     }
 
-    // Cria cirurgias passando apenas os Ids
+    // Cria cirurgias passando apenas os Ids 
     public Cirurgia createCirurgia(CreateCirurgiaDTO createCirurgiaDTO) {
         Medico medico = medicoRepository.findById(createCirurgiaDTO.getMedicoId()).orElseThrow(() -> new RuntimeException("Medico não encontrado"));
         Paciente paciente = pacienteRepository.findById(createCirurgiaDTO.getPacienteId()).orElseThrow(() -> new RuntimeException("Paciente não encontrado"));

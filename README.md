@@ -3,11 +3,17 @@
 Este projeto está sendo desenvolvido para a disciplina de Desenvolvimento Web II, onde o objetivo do grupo é criar uma API de gerenciamento hospitalar. O objetivo é fornecer uma API que permita o gerenciamento de pacientes, médicos, enfermeiros, departamentos, agendamentos de consultas e cirurgias, entre outros recursos hospitalares.
 
 ## 🛠️ Tecnologias Utilizadas
+<div>
+<img align="center" alt="Jv-csharp" height="40" width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original-wordmark.svg" /> 
+<img align="center" alt="Jv-csharp" height="40" width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original-wordmark.svg" /> 
+<img align="center" alt="Jv-csharp" height="40" width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original-wordmark.svg" />
+<img align="center" alt="Jv-csharp" height="40" width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-plain-wordmark.svg" />
+<img align="center" alt="Jv-csharp" height="40" width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swagger/swagger-original-wordmark.svg" />
+</div>
   
-  [![My Skills](https://skillicons.dev/icons?i=java)](https://git-scm.com)
-  [![My Skills](https://skillicons.dev/icons?i=spring)](https://git-scm.com)
-  [![My Skills](https://skillicons.dev/icons?i=mysql)](https://git-scm.com)
-  [![My Skills](https://skillicons.dev/icons?i=git)](https://git-scm.com)
+
+<br>
+
 
 ## 🚀 Como Executar o Projeto
 

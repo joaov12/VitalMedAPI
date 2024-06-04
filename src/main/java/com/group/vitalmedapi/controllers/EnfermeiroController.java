@@ -18,33 +18,39 @@ import org.springframework.web.bind.annotation.RestController;
 import com.group.vitalmedapi.models.Enfermeiro;
 import com.group.vitalmedapi.services.EnfermeiroService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/enfermeiros")
 public class EnfermeiroController {
     @Autowired
     EnfermeiroService enfermeiroService;
 
+    @Operation(summary = "Obter todos os Enfermeiros", description = "Retorna uma lista de todos os enfermeiros cadastrados")
     @GetMapping("/all")
     public ResponseEntity<List<Enfermeiro>> getAllEnfermeiros() {
         return ResponseEntity.status(HttpStatus.OK).body(enfermeiroService.findAll());
     }
 
+    @Operation(summary = "Obter enfermeiro por ID", description = "Retorna um enfermeiro com base no ID fornecido")
     @GetMapping("/find/{id}")
     public ResponseEntity<Optional<Enfermeiro>> getEnfermeiroById(@PathVariable("id") Long id) {
        return ResponseEntity.status(HttpStatus.OK).body(enfermeiroService.findById(id));
     }
 
+    @Operation(summary = "Adicionar enfermeiro", description = "Adiciona um novo enfermeiro")
     @PostMapping("/add")
     public ResponseEntity<Enfermeiro> addEnfermeiro(@RequestBody Enfermeiro enfermeiro) {
        return ResponseEntity.status(HttpStatus.CREATED).body(enfermeiroService.addEnfermeiro(enfermeiro));
     }
 
+    @Operation(summary = "Editar enfermeiro", description = "Edita um enfermeiro existente")
     @PutMapping("/edit")
     public ResponseEntity<Enfermeiro> editEnfermeiro(@RequestBody Enfermeiro enfermeiro) {
        return ResponseEntity.status(HttpStatus.OK).body(enfermeiroService.updateEnfermeiro(enfermeiro));
     }
 
-        
+   @Operation(summary = "Excluir enfermeiro", description = "Exclui um enfermeiro com base no ID fornecido")
    @DeleteMapping("/delete/{id}")
    public ResponseEntity<?> deleteEnfermeiro(@PathVariable("id") Long id) {
       enfermeiroService.deleteEnfermeiro(id); 

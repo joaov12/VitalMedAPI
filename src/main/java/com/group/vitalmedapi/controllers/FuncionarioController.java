@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/funcionarios")
+@Tag(name = "Funcionario")
 public class FuncionarioController {
     
     @Autowired

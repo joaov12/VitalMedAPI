@@ -19,9 +19,11 @@ import com.group.vitalmedapi.models.Medico;
 import com.group.vitalmedapi.services.MedicoService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/medicos")
+@Tag(name = "Medico")
 public class MedicoController {
     @Autowired
     MedicoService medicoService;

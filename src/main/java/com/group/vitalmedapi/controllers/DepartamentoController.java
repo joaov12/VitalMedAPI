@@ -20,9 +20,11 @@ import com.group.vitalmedapi.models.dtos.AddFuncionarioToDepartamentoDTO;
 import com.group.vitalmedapi.services.DepartamentoService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("departamentos")
+@Tag(name = "Departamento")
 public class DepartamentoController {
 
     @Autowired

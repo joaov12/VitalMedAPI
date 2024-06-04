@@ -20,9 +20,11 @@ import com.group.vitalmedapi.models.dtos.CreateCirurgiaDTO;
 import com.group.vitalmedapi.services.CirurgiaService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("cirurgias")
+@Tag(name = "Cirurgia")
 public class CirurgiaController {
     
     @Autowired

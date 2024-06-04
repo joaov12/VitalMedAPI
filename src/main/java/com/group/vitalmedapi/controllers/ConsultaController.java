@@ -19,39 +19,47 @@ import com.group.vitalmedapi.models.Consulta;
 import com.group.vitalmedapi.models.dtos.CreateConsultaDTO;
 import com.group.vitalmedapi.services.ConsultaService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("consultas")
 public class ConsultaController {
     @Autowired
     ConsultaService consultaService;
 
+    @Operation(summary = "Obter todas as Consultas", description = "Retorna uma lista de todas as consultas cadastrados")
     @GetMapping("/all")
     public ResponseEntity<List<Consulta>> getAllConsultas() {
         return ResponseEntity.status(HttpStatus.OK).body(consultaService.findAll());
     }
 
+    @Operation(summary = "Obter consulta por ID", description = "Retorna uma consulta com base no ID fornecido")
     @GetMapping("/find/{id}")
     public ResponseEntity<Optional<Consulta>> getConsultaById(@PathVariable("id") Long id) {
        return ResponseEntity.status(HttpStatus.OK).body(consultaService.findById(id));
     }
 
+    @Operation(summary = "Adicionar consulta", description = "Adiciona uma nova consulta")
     @PostMapping("/add")
     public ResponseEntity<Consulta> addConsulta(@RequestBody Consulta consulta) {
        return ResponseEntity.status(HttpStatus.CREATED).body(consultaService.addConsulta(consulta));
     }
 
+    @Operation(summary = "Editar consulta", description = "Edita uma consulta existente")
     @PutMapping("/edit")
     public ResponseEntity<Consulta> editConsulta(@RequestBody Consulta consulta) {
        return ResponseEntity.status(HttpStatus.OK).body(consultaService.updateConsulta(consulta));
     }
 
+    @Operation(summary = "Excluir consulta", description = "Exclui uma consulta com base no ID fornecido")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteConsulta(@PathVariable("id") Long id) {
        consultaService.deleteConsulta(id); 
        return ResponseEntity.status(HttpStatus.OK).body("Consulta deletada com sucesso"); 
     }
 
-    // Criar consulta passando apenas Id do médico e paciente + informações necessárias
+    
+    @Operation(summary = "Adicionar uma consulta usando IDs", description = "Cria consulta passando apenas Id do médico e paciente + informações necessárias")
     @PostMapping("/createWID")
     public ResponseEntity<?> createConsulta(@RequestBody CreateConsultaDTO dto) {
         Consulta consulta = consultaService.createConsulta(dto);

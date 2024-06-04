@@ -19,6 +19,8 @@ import com.group.vitalmedapi.models.Cirurgia;
 import com.group.vitalmedapi.models.dtos.CreateCirurgiaDTO;
 import com.group.vitalmedapi.services.CirurgiaService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("cirurgias")
 public class CirurgiaController {
@@ -26,32 +28,38 @@ public class CirurgiaController {
     @Autowired
     CirurgiaService cirurgiaService;
 
+    @Operation(summary = "Obter todas as Cirurgias", description = "Retorna uma lista de todas as cirurgias cadastrados")
     @GetMapping("/all")
     public ResponseEntity<List<Cirurgia>> getAllCirurgias() {
         return ResponseEntity.status(HttpStatus.OK).body(cirurgiaService.findAll());
     }
 
+    @Operation(summary = "Obter cirurgia por ID", description = "Retorna uma cirurgia com base no ID fornecido")
     @GetMapping("/find/{id}")
     public ResponseEntity<Optional<Cirurgia>> getCirurgiaById(@PathVariable("id") Long id) {
        return ResponseEntity.status(HttpStatus.OK).body(cirurgiaService.findById(id));
     }
 
+    @Operation(summary = "Adicionar cirurgia", description = "Adiciona uma nova cirurgia")
     @PostMapping("/add")
     public ResponseEntity<Cirurgia> addCirurgia(@RequestBody Cirurgia cirurgia) {
        return ResponseEntity.status(HttpStatus.CREATED).body(cirurgiaService.addCirurgia(cirurgia));
     }
 
+    @Operation(summary = "Editar cirurgia", description = "Edita uma cirurgia existente")
     @PutMapping("/edit")
     public ResponseEntity<Cirurgia> editCirurgia(@RequestBody Cirurgia cirurgia) {
        return ResponseEntity.status(HttpStatus.OK).body(cirurgiaService.updateCirurgia(cirurgia));
     }
 
+    @Operation(summary = "Excluir cirurgia", description = "Exclui uma cirurgia com base no ID fornecido")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCirurgia(@PathVariable("id") Long id) {
        cirurgiaService.deleteCirurgia(id); 
        return ResponseEntity.status(HttpStatus.OK).body("Cirurgia deletada com sucesso"); 
     }
 
+    @Operation(summary = "Adicionar uma cirurgia usando IDs", description = "Cria cirurgia passando apenas IDs(Médico, Paciente, Lista de ID de enfermeiros) + informações necessárias")
     @PostMapping("/createWID")
     public Cirurgia criarCirurgia(@RequestBody CreateCirurgiaDTO createCirurgiaDTO) {
         return cirurgiaService.createCirurgia(createCirurgiaDTO);

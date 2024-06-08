@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.group.vitalmedapi.enums.StatusProcedimentoEnum;
 import com.group.vitalmedapi.models.Cirurgia;
 import com.group.vitalmedapi.models.Enfermeiro;
 import com.group.vitalmedapi.models.Medico;
@@ -82,5 +83,18 @@ public class CirurgiaService {
                 createCirurgiaDTO.getMotivoDaCirurgia(), createCirurgiaDTO.getStatusProcedimento());
 
         return cirurgiaRepository.save(cirurgia);
+    }
+
+    public Cirurgia updateStatusProcedimento(Long id, StatusProcedimentoEnum statusProcedimento) {
+        Cirurgia cirurgia = cirurgiaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cirurgia não encontrada para o ID: " + id));
+
+        cirurgia.setStatusProcedimento(statusProcedimento);
+
+        try {
+            return cirurgiaRepository.save(cirurgia);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar o status do procedimento", e);
+        }
     }
 }

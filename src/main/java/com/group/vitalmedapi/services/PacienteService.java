@@ -1,7 +1,6 @@
 package com.group.vitalmedapi.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,20 +14,37 @@ public class PacienteService {
     @Autowired
     private PacienteRepository pacienteRepository;
 
-    public List<Paciente> findAll(){
-        return pacienteRepository.findAll();
+    public List<Paciente> findAll() {
+        List<Paciente> pacientes = pacienteRepository.findAll();
+        if (pacientes.isEmpty()) {
+            throw new RuntimeException("Nenhum paciente encontrado.");
+        }
+        return pacientes;
     }
 
-    public Optional<Paciente> findById(Long id) {
-		return pacienteRepository.findById(id);
-	}
+    public Paciente findById(Long id) {
+        return pacienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Não existe paciente com o ID: " + id));
+    }
 
     public Paciente addPaciente(Paciente paciente) {
-        return pacienteRepository.save(paciente);
+        try {
+            return pacienteRepository.save(paciente);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao adicionar paciente", e);
+        }
     }
 
     public Paciente updatePaciente(Paciente paciente) {
-        return pacienteRepository.save(paciente);
+        if (!pacienteRepository.existsById(paciente.getId())) {
+            throw new RuntimeException("Paciente não encontrado para o ID: " + paciente.getId());
+        }
+
+        try {
+            return pacienteRepository.save(paciente);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar paciente", e);
+        }
     }
 
     public void deletePaciente(Long id) {

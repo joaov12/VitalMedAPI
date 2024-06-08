@@ -24,20 +24,37 @@ public class ConsultaService {
     @Autowired
     private MedicoRepository medicoRepository;
 
-    public List<Consulta> findAll(){
-        return consultaRepository.findAll();
+    public List<Consulta> findAll() {
+        List<Consulta> consultas = consultaRepository.findAll();
+        if (consultas.isEmpty()) {
+            throw new RuntimeException("Nenhuma consulta encontrada.");
+        }
+        return consultas;
     }
 
-    public Optional<Consulta> findById(Long id) {
-		return consultaRepository.findById(id);
-	}
+    public Consulta findById(Long id) {
+        return consultaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Não existe consulta com o ID: " + id));
+    }
 
     public Consulta addConsulta(Consulta consulta) {
-        return consultaRepository.save(consulta);
+        try {
+            return consultaRepository.save(consulta);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao adicionar consulta", e);
+        }
     }
 
     public Consulta updateConsulta(Consulta consulta) {
-        return consultaRepository.save(consulta);
+        if (!consultaRepository.existsById(consulta.getId())) {
+            throw new RuntimeException("Consulta não encontrada para o ID: " + consulta.getId());
+        }
+
+        try {
+            return consultaRepository.save(consulta);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar consulta", e);
+        }
     }
 
     public void deleteConsulta(Long id) {
@@ -51,7 +68,8 @@ public class ConsultaService {
         if (medicoOptional.isPresent() && pacienteOptional.isPresent()) {
             Medico medico = medicoOptional.get();
             Paciente paciente = pacienteOptional.get();
-            Consulta consulta = new Consulta(medico, paciente, dto.getDataHora(), dto.getMotivoDaConsulta(), dto.getStatusProcedimento());
+            Consulta consulta = new Consulta(medico, paciente, dto.getDataHora(), dto.getMotivoDaConsulta(),
+                    dto.getStatusProcedimento());
             return consultaRepository.save(consulta);
         } else {
             throw new RuntimeException("Médico ou Paciente não encontrado");

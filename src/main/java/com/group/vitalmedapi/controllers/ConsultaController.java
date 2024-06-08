@@ -1,7 +1,6 @@
 package com.group.vitalmedapi.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,7 +36,7 @@ public class ConsultaController {
 
     @Operation(summary = "Obter consulta por ID", description = "Retorna uma consulta com base no ID fornecido")
     @GetMapping("/find/{id}")
-    public ResponseEntity<Optional<Consulta>> getConsultaById(@PathVariable("id") Long id) {
+    public ResponseEntity<Consulta> getConsultaById(@PathVariable("id") Long id) {
        return ResponseEntity.status(HttpStatus.OK).body(consultaService.findById(id));
     }
 

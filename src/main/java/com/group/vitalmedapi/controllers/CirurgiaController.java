@@ -1,7 +1,6 @@
 package com.group.vitalmedapi.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,7 +37,7 @@ public class CirurgiaController {
 
     @Operation(summary = "Obter cirurgia por ID", description = "Retorna uma cirurgia com base no ID fornecido")
     @GetMapping("/find/{id}")
-    public ResponseEntity<Optional<Cirurgia>> getCirurgiaById(@PathVariable("id") Long id) {
+    public ResponseEntity<Cirurgia> getCirurgiaById(@PathVariable("id") Long id) {
        return ResponseEntity.status(HttpStatus.OK).body(cirurgiaService.findById(id));
     }
 

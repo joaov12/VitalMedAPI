@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.group.vitalmedapi.enums.StatusProcedimentoEnum;
 import com.group.vitalmedapi.models.Consulta;
 import com.group.vitalmedapi.models.Medico;
 import com.group.vitalmedapi.models.Paciente;
@@ -73,6 +74,19 @@ public class ConsultaService {
             return consultaRepository.save(consulta);
         } else {
             throw new RuntimeException("Médico ou Paciente não encontrado");
+        }
+    }
+
+    public Consulta updateStatusProcedimento(Long id, StatusProcedimentoEnum statusProcedimento) {
+        Consulta consulta = consultaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Consulta não encontrada para o ID: " + id));
+        
+        consulta.setStatusProcedimento(statusProcedimento);
+
+        try {
+            return consultaRepository.save(consulta);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar o status do procedimento", e);
         }
     }
 }

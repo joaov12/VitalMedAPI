@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.group.vitalmedapi.enums.StatusProcedimentoEnum;
 import com.group.vitalmedapi.models.Consulta;
 import com.group.vitalmedapi.models.dtos.CreateConsultaDTO;
 import com.group.vitalmedapi.services.ConsultaService;
@@ -65,5 +66,12 @@ public class ConsultaController {
     public ResponseEntity<?> createConsulta(@RequestBody CreateConsultaDTO dto) {
         Consulta consulta = consultaService.createConsulta(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(consulta);
+    }
+
+    @Operation(summary = "Atualizar status do procedimento", description = "Atualiza apenas o status do procedimento de uma consulta existente")
+    @PutMapping("/updateStatus/{id}")
+    public ResponseEntity<Consulta> updateStatusProcedimento(@PathVariable("id") Long id, @RequestBody StatusProcedimentoEnum statusProcedimento) {
+        Consulta consulta = consultaService.updateStatusProcedimento(id, statusProcedimento);
+        return ResponseEntity.status(HttpStatus.OK).body(consulta);
     }
 }

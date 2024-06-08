@@ -1,7 +1,6 @@
 package com.group.vitalmedapi.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,25 +10,41 @@ import com.group.vitalmedapi.repositories.EnfermeiroRepository;
 
 @Service
 public class EnfermeiroService {
-    
+
     @Autowired
     private EnfermeiroRepository enfermeiroRepository;
 
-
-    public List<Enfermeiro> findAll(){
-        return enfermeiroRepository.findAll();
+    public List<Enfermeiro> findAll() {
+        List<Enfermeiro> enfermeiros = enfermeiroRepository.findAll();
+        if (enfermeiros.isEmpty()) {
+            throw new RuntimeException("Nenhum enfermeiro encontrado.");
+        }
+        return enfermeiros;
     }
 
-    public Optional<Enfermeiro> findById(Long id) {
-		return enfermeiroRepository.findById(id);
-	}
+    public Enfermeiro findById(Long id) {
+        return enfermeiroRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Não existe enfermeiro com o ID: " + id));
+    }
 
     public Enfermeiro addEnfermeiro(Enfermeiro enfermeiro) {
-        return enfermeiroRepository.save(enfermeiro);
+        try {
+            return enfermeiroRepository.save(enfermeiro);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao adicionar enfermeiro", e);
+        }
     }
 
     public Enfermeiro updateEnfermeiro(Enfermeiro enfermeiro) {
-        return enfermeiroRepository.save(enfermeiro);
+        if (!enfermeiroRepository.existsById(enfermeiro.getId())) {
+            throw new RuntimeException("Enfermeiro não encontrado para o ID: " + enfermeiro.getId());
+        }
+
+        try {
+            return enfermeiroRepository.save(enfermeiro);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar enfermeiro", e);
+        }
     }
 
     public void deleteEnfermeiro(Long id) {

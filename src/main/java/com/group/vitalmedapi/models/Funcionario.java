@@ -29,6 +29,7 @@ public class Funcionario {
     private double Salario;
     private String Telefone;
     private String Endereco;
+    private String Email;
     @ManyToOne
     @JoinColumn(name = "departamento_id")
     @JsonIgnore
@@ -39,13 +40,14 @@ public class Funcionario {
     public Funcionario() {
     }
     public Funcionario(String nome, Date dataNascimento, Date dataContratacao, double salario, String telefone,
-            String endereco, Departamento departamento) {
+            String endereco, String email,  Departamento departamento) {
         Nome = nome;
         DataNascimento = dataNascimento;
         DataContratacao = dataContratacao;
         Salario = salario;
         Telefone = telefone;
         Endereco = endereco;
+        Email = email;
         this.departamento = departamento;
     }
     public Long getId() {
@@ -90,12 +92,19 @@ public class Funcionario {
     public void setEndereco(String endereco) {
         Endereco = endereco;
     }
+    
     public Departamento getDepartamento() {
         return departamento;
     }
 
     public void setDepartamento(Departamento departamento) {
         this.departamento = departamento;
+    }
+    public String getEmail() {
+        return Email;
+    }
+    public void setEmail(String email) {
+        Email = email;
     }
     
 }

@@ -1,7 +1,6 @@
 package com.group.vitalmedapi.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,11 +17,16 @@ public class FuncionarioService {
     private FuncionarioRepository funcionarioRepository;
 
 
-    public List<Funcionario> findAll(){
-        return funcionarioRepository.findAll();
+    public List<Funcionario> findAll() {
+        List<Funcionario> funcionarios = funcionarioRepository.findAll();
+        if (funcionarios.isEmpty()) {
+            throw new RuntimeException("Nenhum funcionário encontrado.");
+        }
+        return funcionarios;
     }
 
-    public Optional<Funcionario> findById(Long id) {
-		return funcionarioRepository.findById(id);
-	}
+    public Funcionario findById(Long id) {
+        return funcionarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Não existe funcionário com o ID: " + id));
+    }
 }

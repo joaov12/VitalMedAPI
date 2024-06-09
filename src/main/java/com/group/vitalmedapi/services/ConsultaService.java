@@ -85,10 +85,12 @@ public class ConsultaService {
         
         consulta.setStatusProcedimento(statusProcedimento);
 
-        emailService.enviarEmail(consulta.getPaciente().getEmail(), "Relatório da Sua Consulta",
-         "Nome Paciente: " + consulta.getPaciente().getNome()
-         + "\n Nome Médico: " + consulta.getMedico().getEmail()
-         + "\n CRM: " + consulta.getMedico().getCrm() 
+        emailService.enviarEmail(consulta.getPaciente().getEmail(), "Este é o relatório de sua consuta, " + consulta.getPaciente().getNome(),
+         "\nNome Paciente: " + consulta.getPaciente().getNome()
+         + "\nNome Médico: " + consulta.getMedico().getNome()
+         + "\nCRM: " + consulta.getMedico().getCrm() 
+         + "\nData agendada: " + consulta.getDataMarcada()
+         + "\nMotivo da consulta: " + consulta.getMotivoDaConsulta()
          );
         try {
             return consultaRepository.save(consulta);

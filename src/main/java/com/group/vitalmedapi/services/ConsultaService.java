@@ -24,6 +24,8 @@ public class ConsultaService {
     private PacienteRepository pacienteRepository;
     @Autowired
     private MedicoRepository medicoRepository;
+    @Autowired
+    private EmailService emailService;
 
     public List<Consulta> findAll() {
         List<Consulta> consultas = consultaRepository.findAll();
@@ -83,6 +85,11 @@ public class ConsultaService {
         
         consulta.setStatusProcedimento(statusProcedimento);
 
+        emailService.enviarEmail(consulta.getPaciente().getEmail(), "Relatório da Sua Consulta",
+         "Nome Paciente: " + consulta.getPaciente().getNome()
+         + "\n Nome Médico: " + consulta.getMedico().getEmail()
+         + "\n CRM: " + consulta.getMedico().getCrm() 
+         );
         try {
             return consultaRepository.save(consulta);
         } catch (Exception e) {

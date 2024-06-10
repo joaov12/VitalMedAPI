@@ -80,22 +80,28 @@ public class ConsultaService {
     }
 
     public Consulta updateStatusProcedimento(Long id, StatusProcedimentoEnum statusProcedimento) {
-        Consulta consulta = consultaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Consulta não encontrada para o ID: " + id));
-        
-        consulta.setStatusProcedimento(statusProcedimento);
+    Consulta consulta = consultaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Consulta não encontrada para o ID: " + id));
+    
+    consulta.setStatusProcedimento(statusProcedimento);
 
-        emailService.enviarEmail(consulta.getPaciente().getEmail(), "Este é o relatório de sua consuta, " + consulta.getPaciente().getNome(),
-         "\nNome Paciente: " + consulta.getPaciente().getNome()
-         + "\nNome Médico: " + consulta.getMedico().getNome()
-         + "\nCRM: " + consulta.getMedico().getCrm() 
-         + "\nData agendada: " + consulta.getDataMarcada()
-         + "\nMotivo da consulta: " + consulta.getMotivoDaConsulta()
-         );
-        try {
-            return consultaRepository.save(consulta);
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao atualizar o status do procedimento", e);
-        }
+    if (statusProcedimento == StatusProcedimentoEnum.CONCLUIDO) {
+        emailService.enviarEmail(
+            consulta.getPaciente().getEmail(),
+            "Este é o relatório de sua consulta, " + consulta.getPaciente().getNome(),
+            "\nNome Paciente: " + consulta.getPaciente().getNome()
+            + "\nNome Médico: " + consulta.getMedico().getNome()
+            + "\nCRM: " + consulta.getMedico().getCrm()
+            + "\nData agendada: " + consulta.getDataMarcada()
+            + "\nMotivo da consulta: " + consulta.getMotivoDaConsulta()
+        );
     }
+
+    try {
+        return consultaRepository.save(consulta);
+    } catch (Exception e) {
+        throw new RuntimeException("Erro ao atualizar o status do procedimento", e);
+    }
+}
+
 }

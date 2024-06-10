@@ -31,6 +31,9 @@ public class CirurgiaService {
     @Autowired
     private EnfermeiroRepository enfermeiroRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     public List<Cirurgia> findAll() {
         List<Cirurgia> cirurgias = cirurgiaRepository.findAll();
         if (cirurgias.isEmpty()) {
@@ -88,13 +91,44 @@ public class CirurgiaService {
     public Cirurgia updateStatusProcedimento(Long id, StatusProcedimentoEnum statusProcedimento) {
         Cirurgia cirurgia = cirurgiaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cirurgia não encontrada para o ID: " + id));
-
+    
         cirurgia.setStatusProcedimento(statusProcedimento);
-
+    
+        if (statusProcedimento == StatusProcedimentoEnum.CONCLUIDO) {
+            String emailContent = "\nNome Paciente: " + cirurgia.getPaciente().getNome()
+                + "\nNome Médico: " + cirurgia.getMedico().getNome()
+                + "\nCRM: " + cirurgia.getMedico().getCrm()
+                + "\nData agendada: " + cirurgia.getDataMarcada()
+                + "\nMotivo da cirurgia: " + cirurgia.getMotivoDaCirurgia();
+    
+            // Enviar email para o paciente
+            emailService.enviarEmail(
+                cirurgia.getPaciente().getEmail(),
+                "Este é o relatório de sua cirurgia, " + cirurgia.getPaciente().getNome(),
+                emailContent
+            );
+    
+            // Enviar email para o médico
+            emailService.enviarEmail(
+                cirurgia.getMedico().getEmail(),
+                "Relatório de cirurgia concluída, paciente: " + cirurgia.getPaciente().getNome(),
+                emailContent
+            );
+    
+            // Enviar email para cada enfermeiro
+            for (Enfermeiro enfermeiro : cirurgia.getEnfermeiros()) {
+                emailService.enviarEmail(
+                    enfermeiro.getEmail(),
+                    "Relatório de cirurgia concluída, paciente: " + cirurgia.getPaciente().getNome(),
+                    emailContent
+                );
+            }
+        }
+    
         try {
             return cirurgiaRepository.save(cirurgia);
         } catch (Exception e) {
             throw new RuntimeException("Erro ao atualizar o status do procedimento", e);
         }
-    }
+    }    
 }

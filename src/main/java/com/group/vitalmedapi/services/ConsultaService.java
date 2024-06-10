@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.group.vitalmedapi.enums.StatusProcedimentoEnum;
 import com.group.vitalmedapi.models.Consulta;
 import com.group.vitalmedapi.models.Medico;
 import com.group.vitalmedapi.models.Paciente;
@@ -23,6 +24,8 @@ public class ConsultaService {
     private PacienteRepository pacienteRepository;
     @Autowired
     private MedicoRepository medicoRepository;
+    @Autowired
+    private EmailService emailService;
 
     public List<Consulta> findAll() {
         List<Consulta> consultas = consultaRepository.findAll();
@@ -75,4 +78,36 @@ public class ConsultaService {
             throw new RuntimeException("Médico ou Paciente não encontrado");
         }
     }
+
+    public Consulta updateStatusProcedimento(Long id, StatusProcedimentoEnum statusProcedimento) {
+        Consulta consulta = consultaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Consulta não encontrada para o ID: " + id));
+
+        consulta.setStatusProcedimento(statusProcedimento);
+
+        if (statusProcedimento == StatusProcedimentoEnum.CONCLUIDO) {
+            String emailContent = "\nNome Paciente: " + consulta.getPaciente().getNome()
+                    + "\nNome Médico: " + consulta.getMedico().getNome()
+                    + "\nCRM: " + consulta.getMedico().getCrm()
+                    + "\nData agendada: " + consulta.getDataMarcada()
+                    + "\nMotivo da consulta: " + consulta.getMotivoDaConsulta();
+
+            emailService.enviarEmail(
+                    consulta.getPaciente().getEmail(),
+                    "Este é o relatório de sua consulta, " + consulta.getPaciente().getNome(),
+                    emailContent);
+
+            emailService.enviarEmail(
+                    consulta.getMedico().getEmail(),
+                    "Relatório de consulta concluída, paciente: " + consulta.getPaciente().getNome(),
+                    emailContent);
+        }
+
+        try {
+            return consultaRepository.save(consulta);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar o status do procedimento", e);
+        }
+    }
+
 }

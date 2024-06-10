@@ -24,6 +24,7 @@ public class Paciente {
     private Date DataNascimento;
     private String Telefone;
     private String Endereco;
+    private String Email;
     private String ObservacoesPaciente;
 
 
@@ -38,11 +39,12 @@ public class Paciente {
     private List<Cirurgia> cirurgias;
 
     public Paciente(){}
-    public Paciente(String nome, Date dataNascimento, String telefone, String endereco, String observacoesPaciente) {
+    public Paciente(String nome, Date dataNascimento, String telefone, String endereco, String email, String observacoesPaciente) {
         Nome = nome;
         DataNascimento = dataNascimento;
         Telefone = telefone;
         Endereco = endereco;
+        Email = email;
         ObservacoesPaciente = observacoesPaciente;
     }
 
@@ -54,6 +56,13 @@ public class Paciente {
     }
     public String getNome() {
         return Nome;
+    }
+    
+    public String getEmail() {
+        return Email;
+    }
+    public void setEmail(String email) {
+        Email = email;
     }
     public void setNome(String nome) {
         Nome = nome;

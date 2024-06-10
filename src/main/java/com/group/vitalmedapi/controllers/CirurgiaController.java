@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.group.vitalmedapi.enums.StatusProcedimentoEnum;
 import com.group.vitalmedapi.models.Cirurgia;
 import com.group.vitalmedapi.models.dtos.CreateCirurgiaDTO;
 import com.group.vitalmedapi.services.CirurgiaService;
@@ -64,5 +65,12 @@ public class CirurgiaController {
     @PostMapping("/createWID")
     public Cirurgia criarCirurgia(@RequestBody CreateCirurgiaDTO createCirurgiaDTO) {
         return cirurgiaService.createCirurgia(createCirurgiaDTO);
+    }
+
+    @Operation(summary = "Atualizar status do procedimento", description = "Atualiza apenas o status do procedimento de uma cirurgia existente")
+    @PutMapping("/updateStatus/{id}")
+    public ResponseEntity<Cirurgia> updateStatusProcedimento(@PathVariable("id") Long id, @RequestBody StatusProcedimentoEnum statusProcedimento) {
+        Cirurgia cirurgia = cirurgiaService.updateStatusProcedimento(id, statusProcedimento);
+        return ResponseEntity.status(HttpStatus.OK).body(cirurgia);
     }
 }

@@ -20,7 +20,7 @@ import jakarta.persistence.Table;
 public class Cirurgia {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    private Long id;
 
     @ManyToOne
     private Medico medico;
@@ -47,10 +47,10 @@ public class Cirurgia {
     }
     
     public Long getId() {
-        return Id;
+        return id;
     }
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
     public Medico getMedico() {
         return medico;

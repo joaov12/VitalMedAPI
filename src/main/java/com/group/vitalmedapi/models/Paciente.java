@@ -20,16 +20,13 @@ public class Paciente {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String Nome;
-    private Date DataNascimento;
-    private String Telefone;
-    private String Endereco;
-    private String Email;
-    private String ObservacoesPaciente;
+    private String nome;
+    private Date dataNascimento;
+    private String telefone;
+    private String endereco;
+    private String email;
+    private String observacoesPaciente;
 
-
-
-    
     @JsonIgnore
     @OneToMany(mappedBy = "paciente")
     private List<Consulta> consultas;
@@ -40,12 +37,12 @@ public class Paciente {
 
     public Paciente(){}
     public Paciente(String nome, Date dataNascimento, String telefone, String endereco, String email, String observacoesPaciente) {
-        Nome = nome;
-        DataNascimento = dataNascimento;
-        Telefone = telefone;
-        Endereco = endereco;
-        Email = email;
-        ObservacoesPaciente = observacoesPaciente;
+        this.nome = nome;
+        this.dataNascimento = dataNascimento;
+        this.telefone = telefone;
+        this.endereco = endereco;
+        this.email = email;
+        this.observacoesPaciente = observacoesPaciente;
     }
 
     public Long getId() {
@@ -55,41 +52,41 @@ public class Paciente {
         this.id = id;
     }
     public String getNome() {
-        return Nome;
+        return nome;
     }
     
     public String getEmail() {
-        return Email;
+        return email;
     }
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
     public void setNome(String nome) {
-        Nome = nome;
+        this.nome = nome;
     }
     public Date getDataNascimento() {
-        return DataNascimento;
+        return dataNascimento;
     }
     public void setDataNascimento(Date dataNascimento) {
-        DataNascimento = dataNascimento;
+        this.dataNascimento = dataNascimento;
     }
     public String getTelefone() {
-        return Telefone;
+        return telefone;
     }
     public void setTelefone(String telefone) {
-        Telefone = telefone;
+        this.telefone = telefone;
     }
     public String getEndereco() {
-        return Endereco;
+        return endereco;
     }
     public void setEndereco(String endereco) {
-        Endereco = endereco;
+        this.endereco = endereco;
     }
     public String getObservacoesPaciente() {
-        return ObservacoesPaciente;
+        return observacoesPaciente;
     }
     public void setObservacoesPaciente(String observacoesPaciente) {
-        ObservacoesPaciente = observacoesPaciente;
+        this.observacoesPaciente = observacoesPaciente;
     }
     public List<Consulta> getConsultas() {
         return consultas;

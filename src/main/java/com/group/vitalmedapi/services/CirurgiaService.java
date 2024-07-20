@@ -3,6 +3,8 @@ package com.group.vitalmedapi.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.group.vitalmedapi.enums.StatusPagamentoEnum;
+import com.group.vitalmedapi.exceptions.CustomizedResponseEntityExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -91,30 +93,34 @@ public class CirurgiaService {
     public Cirurgia updateStatusProcedimento(Long id, StatusProcedimentoEnum statusProcedimento) {
         Cirurgia cirurgia = cirurgiaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cirurgia não encontrada para o ID: " + id));
-    
+
         cirurgia.setStatusProcedimento(statusProcedimento);
-    
+
         if (statusProcedimento == StatusProcedimentoEnum.CONCLUIDO) {
+            if(!(cirurgia.getStatusPagamento() == StatusPagamentoEnum.PAGAMENTO_CONCLUIDO)){
+                throw new RuntimeException("O pagamento dessa cirurgia ainda não foi feito");
+            }
+
             String emailContent = "\nNome Paciente: " + cirurgia.getPaciente().getNome()
                 + "\nNome Médico: " + cirurgia.getMedico().getNome()
                 + "\nCRM: " + cirurgia.getMedico().getCrm()
                 + "\nData agendada: " + cirurgia.getDataMarcada()
                 + "\nMotivo da cirurgia: " + cirurgia.getMotivoDaCirurgia();
-    
+
             // Enviar email para o paciente
             emailService.enviarEmail(
                 cirurgia.getPaciente().getEmail(),
                 "Este é o relatório de sua cirurgia, " + cirurgia.getPaciente().getNome(),
                 emailContent
             );
-    
+
             // Enviar email para o médico
             emailService.enviarEmail(
                 cirurgia.getMedico().getEmail(),
                 "Relatório de cirurgia concluída, paciente: " + cirurgia.getPaciente().getNome(),
                 emailContent
             );
-    
+
             // Enviar email para cada enfermeiro
             for (Enfermeiro enfermeiro : cirurgia.getEnfermeiros()) {
                 emailService.enviarEmail(
@@ -124,11 +130,11 @@ public class CirurgiaService {
                 );
             }
         }
-    
+
         try {
             return cirurgiaRepository.save(cirurgia);
         } catch (Exception e) {
             throw new RuntimeException("Erro ao atualizar o status do procedimento", e);
         }
-    }    
+    }
 }

@@ -2,6 +2,7 @@ package com.group.vitalmedapi.controllers;
 
 import java.util.List;
 
+import com.group.vitalmedapi.enums.StatusPagamentoEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,9 +69,17 @@ public class CirurgiaController {
     }
 
     @Operation(summary = "Atualizar status do procedimento", description = "Atualiza apenas o status do procedimento de uma cirurgia existente")
-    @PutMapping("/updateStatus/{id}")
+    @PutMapping("/updateStatusProcedimento/{id}")
     public ResponseEntity<Cirurgia> updateStatusProcedimento(@PathVariable("id") Long id, @RequestBody StatusProcedimentoEnum statusProcedimento) {
         Cirurgia cirurgia = cirurgiaService.updateStatusProcedimento(id, statusProcedimento);
         return ResponseEntity.status(HttpStatus.OK).body(cirurgia);
     }
+
+    @Operation(summary = "Atualizar status do pagamento", description = "Atualiza apenas o status do pagamento de uma cirurgia existente")
+    @PutMapping("/updateStatusPagamento/{id}")
+    public ResponseEntity<Cirurgia> updateStatusPagamento(@PathVariable("id") Long id, @RequestBody StatusPagamentoEnum statusPagamento) {
+        Cirurgia cirurgia = cirurgiaService.updateStatusPagamento(id, statusPagamento);
+        return ResponseEntity.status(HttpStatus.OK).body(cirurgia);
+    }
+
 }

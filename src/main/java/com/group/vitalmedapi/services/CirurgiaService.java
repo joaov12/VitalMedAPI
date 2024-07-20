@@ -137,4 +137,33 @@ public class CirurgiaService {
             throw new RuntimeException("Erro ao atualizar o status do procedimento", e);
         }
     }
+
+    public Cirurgia updateStatusPagamento(Long id, StatusPagamentoEnum statusPagamento) {
+        Cirurgia cirurgia = cirurgiaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cirurgia não encontrada para o ID: " + id));
+
+        cirurgia.setStatusPagamento(statusPagamento);
+
+        if (statusPagamento == StatusPagamentoEnum.PAGAMENTO_CONCLUIDO){
+
+            String emailContent = "\nNome Paciente: " + cirurgia.getPaciente().getNome()
+                    + "\nNome Médico: " + cirurgia.getMedico().getNome()
+                    + "\nCRM: " + cirurgia.getMedico().getCrm()
+                    + "\nData agendada: " + cirurgia.getDataMarcada()
+                    + "\nMotivo da cirurgia: " + cirurgia.getMotivoDaCirurgia();
+
+            // Enviar email para o paciente
+            emailService.enviarEmail(
+                    cirurgia.getPaciente().getEmail(),
+                    "PAGAMENTO DA CIRURGIA CONCLUIDO!!! " + cirurgia.getPaciente().getNome(),
+                    emailContent
+            );
+        }
+
+        try {
+            return cirurgiaRepository.save(cirurgia);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar o status do pagamento", e);
+        }
+    }
 }

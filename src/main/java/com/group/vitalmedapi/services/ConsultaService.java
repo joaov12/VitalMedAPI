@@ -72,7 +72,7 @@ public class ConsultaService {
             Medico medico = medicoOptional.get();
             Paciente paciente = pacienteOptional.get();
             Consulta consulta = new Consulta(medico, paciente, dto.getDataHora(), dto.getMotivoDaConsulta(),
-                    dto.getStatusProcedimento());
+                    dto.getStatusProcedimento(), dto.getStatusPagamento());
             return consultaRepository.save(consulta);
         } else {
             throw new RuntimeException("Médico ou Paciente não encontrado");

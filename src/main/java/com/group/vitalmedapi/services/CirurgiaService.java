@@ -83,7 +83,7 @@ public class CirurgiaService {
                 .collect(Collectors.toList());
 
         Cirurgia cirurgia = new Cirurgia(medico, paciente, enfermeiros, createCirurgiaDTO.getDataMarcada(),
-                createCirurgiaDTO.getMotivoDaCirurgia(), createCirurgiaDTO.getStatusProcedimento());
+                createCirurgiaDTO.getMotivoDaCirurgia(), createCirurgiaDTO.getStatusProcedimento(), createCirurgiaDTO.getStatusPagamento());
 
         return cirurgiaRepository.save(cirurgia);
     }

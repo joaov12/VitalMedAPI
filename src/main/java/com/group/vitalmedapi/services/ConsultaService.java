@@ -3,6 +3,7 @@ package com.group.vitalmedapi.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.group.vitalmedapi.enums.StatusPagamentoEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,7 +73,7 @@ public class ConsultaService {
             Medico medico = medicoOptional.get();
             Paciente paciente = pacienteOptional.get();
             Consulta consulta = new Consulta(medico, paciente, dto.getDataHora(), dto.getMotivoDaConsulta(),
-                    dto.getStatusProcedimento());
+                    dto.getStatusProcedimento(), dto.getStatusPagamento());
             return consultaRepository.save(consulta);
         } else {
             throw new RuntimeException("Médico ou Paciente não encontrado");
@@ -84,6 +85,10 @@ public class ConsultaService {
                 .orElseThrow(() -> new RuntimeException("Consulta não encontrada para o ID: " + id));
 
         consulta.setStatusProcedimento(statusProcedimento);
+
+        if(!(consulta.getStatusPagamento() == StatusPagamentoEnum.PAGAMENTO_CONCLUIDO)){
+            throw new RuntimeException("O pagamento dessa consulta ainda não foi feito");
+        }
 
         if (statusProcedimento == StatusProcedimentoEnum.CONCLUIDO) {
             String emailContent = "\nNome Paciente: " + consulta.getPaciente().getNome()

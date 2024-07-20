@@ -3,6 +3,7 @@ package com.group.vitalmedapi.models;
 import java.util.Date;
 import java.util.List;
 
+import com.group.vitalmedapi.enums.StatusPagamentoEnum;
 import com.group.vitalmedapi.enums.StatusProcedimentoEnum;
 
 import jakarta.persistence.Entity;
@@ -19,7 +20,7 @@ import jakarta.persistence.Table;
 public class Cirurgia {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    private Long id;
 
     @ManyToOne
     private Medico medico;
@@ -31,23 +32,25 @@ public class Cirurgia {
     private Date dataMarcada;
     private String motivoDaCirurgia;
     private StatusProcedimentoEnum statusProcedimento;
+    private StatusPagamentoEnum statusPagamento;
 
     public Cirurgia(){}
     public Cirurgia(Medico medico, Paciente paciente, List<Enfermeiro> enfermeiros, Date dataMarcada,
-            String motivoDaCirurgia, StatusProcedimentoEnum statusProcedimento) {
+            String motivoDaCirurgia, StatusProcedimentoEnum statusProcedimento, StatusPagamentoEnum statusPagamento) {
         this.medico = medico;
         this.paciente = paciente;
         this.enfermeiros = enfermeiros;
         this.dataMarcada = dataMarcada;
         this.motivoDaCirurgia = motivoDaCirurgia;
         this.statusProcedimento = statusProcedimento;
+        this.statusPagamento = statusPagamento;
     }
     
     public Long getId() {
-        return Id;
+        return id;
     }
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
     public Medico getMedico() {
         return medico;
@@ -85,6 +88,10 @@ public class Cirurgia {
     public void setStatusProcedimento(StatusProcedimentoEnum statusProcedimento) {
         this.statusProcedimento = statusProcedimento;
     }
-
-    
+    public StatusPagamentoEnum getStatusPagamento() {
+        return statusPagamento;
+    }
+    public void setStatusPagamento(StatusPagamentoEnum statusPagamento) {
+        this.statusPagamento = statusPagamento;
+    }
 }

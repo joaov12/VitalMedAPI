@@ -3,6 +3,7 @@ package com.group.vitalmedapi.models.dtos;
 import java.util.Date;
 import java.util.List;
 
+import com.group.vitalmedapi.enums.StatusPagamentoEnum;
 import com.group.vitalmedapi.enums.StatusProcedimentoEnum;
 
 public class CreateCirurgiaDTO {
@@ -12,6 +13,7 @@ public class CreateCirurgiaDTO {
     private Date dataMarcada;
     private String motivoDaCirurgia;
     private StatusProcedimentoEnum statusProcedimento;
+    private StatusPagamentoEnum statusPagamento;
 
     public Long getMedicoId() {
         return medicoId;
@@ -59,5 +61,13 @@ public class CreateCirurgiaDTO {
 
     public void setStatusProcedimento(StatusProcedimentoEnum statusProcedimento) {
         this.statusProcedimento = statusProcedimento;
+    }
+
+    public StatusPagamentoEnum getStatusPagamento() {
+        return statusPagamento;
+    }
+
+    public void setStatusPagamento(StatusPagamentoEnum statusPagamento) {
+        this.statusPagamento = statusPagamento;
     }
 }

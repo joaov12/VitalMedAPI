@@ -2,6 +2,7 @@ package com.group.vitalmedapi.models;
 
 import java.util.Date;
 
+import com.group.vitalmedapi.enums.StatusPagamentoEnum;
 import com.group.vitalmedapi.enums.StatusProcedimentoEnum;
 
 import jakarta.persistence.Entity;
@@ -16,7 +17,7 @@ import jakarta.persistence.Table;
 public class Consulta {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    private Long id;
 
     @ManyToOne
     private Medico medico;
@@ -27,23 +28,25 @@ public class Consulta {
     private String motivoDaConsulta;
 
     private StatusProcedimentoEnum statusProcedimento;
+    private StatusPagamentoEnum statusPagamento;
 
     public Consulta(){}
     public Consulta(Medico medico, Paciente paciente, Date dataMarcada, String motivoDaConsulta,
-            StatusProcedimentoEnum statusProcedimento) {
+            StatusProcedimentoEnum statusProcedimento, StatusPagamentoEnum statusPagamento) {
         this.medico = medico;
         this.paciente = paciente;
         this.dataMarcada = dataMarcada;
         this.motivoDaConsulta = motivoDaConsulta;
         this.statusProcedimento = statusProcedimento;
+        this.statusPagamento = statusPagamento;
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public Medico getMedico() {
@@ -86,5 +89,11 @@ public class Consulta {
         this.statusProcedimento = statusProcedimento;
     }
 
-    
+    public StatusPagamentoEnum getStatusPagamento() {
+        return statusPagamento;
+    }
+
+    public void setStatusPagamento(StatusPagamentoEnum statusPagamento) {
+        this.statusPagamento = statusPagamento;
+    }
 }

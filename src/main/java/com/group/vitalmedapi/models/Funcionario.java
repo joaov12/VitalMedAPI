@@ -23,13 +23,13 @@ public class Funcionario {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String Nome;
-    private Date DataNascimento;
-    private Date DataContratacao;
-    private double Salario;
-    private String Telefone;
-    private String Endereco;
-    private String Email;
+    private String nome;
+    private Date dataNascimento;
+    private Date dataContratacao;
+    private double salario;
+    private String telefone;
+    private String endereco;
+    private String email;
     @ManyToOne
     @JoinColumn(name = "departamento_id")
     @JsonIgnore
@@ -41,13 +41,13 @@ public class Funcionario {
     }
     public Funcionario(String nome, Date dataNascimento, Date dataContratacao, double salario, String telefone,
             String endereco, String email,  Departamento departamento) {
-        Nome = nome;
-        DataNascimento = dataNascimento;
-        DataContratacao = dataContratacao;
-        Salario = salario;
-        Telefone = telefone;
-        Endereco = endereco;
-        Email = email;
+        this.nome = nome;
+        this.dataNascimento = dataNascimento;
+        this.dataContratacao = dataContratacao;
+        this.salario = salario;
+        this.telefone = telefone;
+        this.endereco = endereco;
+        this.email = email;
         this.departamento = departamento;
     }
     public Long getId() {
@@ -57,40 +57,40 @@ public class Funcionario {
         this.id = id;
     }
     public String getNome() {
-        return Nome;
+        return nome;
     }
     public void setNome(String nome) {
-        Nome = nome;
+        this.nome = nome;
     }
     public Date getDataNascimento() {
-        return DataNascimento;
+        return dataNascimento;
     }
     public void setDataNascimento(Date dataNascimento) {
-        DataNascimento = dataNascimento;
+        this.dataNascimento = dataNascimento;
     }
     public Date getDataContratacao() {
-        return DataContratacao;
+        return dataContratacao;
     }
     public void setDataContratacao(Date dataContratacao) {
-        DataContratacao = dataContratacao;
+        this.dataContratacao = dataContratacao;
     }
     public double getSalario() {
-        return Salario;
+        return salario;
     }
     public void setSalario(double salario) {
-        Salario = salario;
+        this.salario = salario;
     }
     public String getTelefone() {
-        return Telefone;
+        return telefone;
     }
     public void setTelefone(String telefone) {
-        Telefone = telefone;
+        this.telefone = telefone;
     }
     public String getEndereco() {
-        return Endereco;
+        return endereco;
     }
     public void setEndereco(String endereco) {
-        Endereco = endereco;
+        this.endereco = endereco;
     }
     
     public Departamento getDepartamento() {
@@ -101,10 +101,10 @@ public class Funcionario {
         this.departamento = departamento;
     }
     public String getEmail() {
-        return Email;
+        return email;
     }
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
     
 }

@@ -86,7 +86,7 @@ public class ConsultaService {
 
         consulta.setStatusProcedimento(statusProcedimento);
 
-        if(!(consulta.getStatusPagamento() == StatusPagamentoEnum.PAGAMENTO_CONCLUIDO)){
+        if (!(consulta.getStatusPagamento() == StatusPagamentoEnum.PAGAMENTO_CONCLUIDO)) {
             throw new RuntimeException("O pagamento dessa consulta ainda não foi feito");
         }
 
@@ -112,6 +112,34 @@ public class ConsultaService {
             return consultaRepository.save(consulta);
         } catch (Exception e) {
             throw new RuntimeException("Erro ao atualizar o status do procedimento", e);
+        }
+    }
+
+    public Consulta updateStatusPagamento(Long id, StatusPagamentoEnum statusPagamento) {
+        Consulta consulta = consultaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Consulta não encontrada para o ID: " + id));
+
+        consulta.setStatusPagamento(statusPagamento);
+
+        if (statusPagamento == StatusPagamentoEnum.PAGAMENTO_CONCLUIDO) {
+
+            String emailContent = "\nNome Paciente: " + consulta.getPaciente().getNome()
+                    + "\nNome Médico: " + consulta.getMedico().getNome()
+                    + "\nCRM: " + consulta.getMedico().getCrm()
+                    + "\nData agendada: " + consulta.getDataMarcada()
+                    + "\nMotivo da cirurgia: " + consulta.getMotivoDaConsulta();
+
+            // Enviar email para o paciente
+            emailService.enviarEmail(
+                    consulta.getPaciente().getEmail(),
+                    "PAGAMENTO DA CONSULTA CONCLUIDO!!! " + consulta.getPaciente().getNome(),
+                    emailContent);
+        }
+
+        try {
+            return consultaRepository.save(consulta);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar o status do pagamento", e);
         }
     }
 

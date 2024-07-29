@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.group.vitalmedapi.enums.StatusPagamentoEnum;
 import com.group.vitalmedapi.enums.StatusProcedimentoEnum;
 import com.group.vitalmedapi.models.Consulta;
 import com.group.vitalmedapi.models.dtos.CreateConsultaDTO;
@@ -38,29 +39,28 @@ public class ConsultaController {
     @Operation(summary = "Obter consulta por ID", description = "Retorna uma consulta com base no ID fornecido")
     @GetMapping("/find/{id}")
     public ResponseEntity<Consulta> getConsultaById(@PathVariable("id") Long id) {
-       return ResponseEntity.status(HttpStatus.OK).body(consultaService.findById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(consultaService.findById(id));
     }
 
     @Operation(summary = "Adicionar consulta", description = "Adiciona uma nova consulta")
     @PostMapping("/add")
     public ResponseEntity<Consulta> addConsulta(@RequestBody Consulta consulta) {
-       return ResponseEntity.status(HttpStatus.CREATED).body(consultaService.addConsulta(consulta));
+        return ResponseEntity.status(HttpStatus.CREATED).body(consultaService.addConsulta(consulta));
     }
 
     @Operation(summary = "Editar consulta", description = "Edita uma consulta existente")
     @PutMapping("/edit")
     public ResponseEntity<Consulta> editConsulta(@RequestBody Consulta consulta) {
-       return ResponseEntity.status(HttpStatus.OK).body(consultaService.updateConsulta(consulta));
+        return ResponseEntity.status(HttpStatus.OK).body(consultaService.updateConsulta(consulta));
     }
 
     @Operation(summary = "Excluir consulta", description = "Exclui uma consulta com base no ID fornecido")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteConsulta(@PathVariable("id") Long id) {
-       consultaService.deleteConsulta(id); 
-       return ResponseEntity.status(HttpStatus.OK).body("Consulta deletada com sucesso"); 
+        consultaService.deleteConsulta(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Consulta deletada com sucesso");
     }
 
-    
     @Operation(summary = "Adicionar uma consulta usando IDs", description = "Cria consulta passando apenas Id do médico e paciente + informações necessárias")
     @PostMapping("/createWID")
     public ResponseEntity<?> createConsulta(@RequestBody CreateConsultaDTO dto) {
@@ -70,8 +70,17 @@ public class ConsultaController {
 
     @Operation(summary = "Atualizar status do procedimento", description = "Atualiza apenas o status do procedimento de uma consulta existente")
     @PutMapping("/updateStatus/{id}")
-    public ResponseEntity<Consulta> updateStatusProcedimento(@PathVariable("id") Long id, @RequestBody StatusProcedimentoEnum statusProcedimento) {
+    public ResponseEntity<Consulta> updateStatusProcedimento(@PathVariable("id") Long id,
+            @RequestBody StatusProcedimentoEnum statusProcedimento) {
         Consulta consulta = consultaService.updateStatusProcedimento(id, statusProcedimento);
+        return ResponseEntity.status(HttpStatus.OK).body(consulta);
+    }
+
+    @Operation(summary = "Atualizar status do pagamento", description = "Atualiza apenas o status do pagamento de uma consulta existente")
+    @PutMapping("/updateStatusPagamento/{id}")
+    public ResponseEntity<Consulta> updateStatusPagamento(@PathVariable("id") Long id,
+            @RequestBody StatusPagamentoEnum statusPagamento) {
+        Consulta consulta = consultaService.updateStatusPagamento(id, statusPagamento);
         return ResponseEntity.status(HttpStatus.OK).body(consulta);
     }
 }

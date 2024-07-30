@@ -1,4 +1,4 @@
-package com.group.vitalmedapi.models.dtos;
+package com.group.vitalmedapi.dtos;
 
 public class AddFuncionarioToDepartamentoDTO {
     private Long departamentoId;

@@ -3,6 +3,7 @@ package com.group.vitalmedapi.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.group.vitalmedapi.dtos.CreateCirurgiaDTO;
 import com.group.vitalmedapi.enums.StatusPagamentoEnum;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import com.group.vitalmedapi.models.Cirurgia;
 import com.group.vitalmedapi.models.Enfermeiro;
 import com.group.vitalmedapi.models.Medico;
 import com.group.vitalmedapi.models.Paciente;
-import com.group.vitalmedapi.models.dtos.CreateCirurgiaDTO;
 import com.group.vitalmedapi.repositories.CirurgiaRepository;
 import com.group.vitalmedapi.repositories.EnfermeiroRepository;
 import com.group.vitalmedapi.repositories.MedicoRepository;

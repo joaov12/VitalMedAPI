@@ -1,19 +1,25 @@
-package com.group.vitalmedapi.models.dtos;
+package com.group.vitalmedapi.dtos;
 
 import java.util.Date;
-import java.util.List;
 
 import com.group.vitalmedapi.enums.StatusPagamentoEnum;
 import com.group.vitalmedapi.enums.StatusProcedimentoEnum;
 
-public class CreateCirurgiaDTO {
+public class CreateConsultaDTO {
+    private Date dataHora;
     private Long medicoId;
     private Long pacienteId;
-    private List<Long> enfermeiroIds;
-    private Date dataMarcada;
-    private String motivoDaCirurgia;
+    private String motivoDaConsulta;
     private StatusProcedimentoEnum statusProcedimento;
     private StatusPagamentoEnum statusPagamento;
+
+    public Date getDataHora() {
+        return dataHora;
+    }
+
+    public void setDataHora(Date dataHora) {
+        this.dataHora = dataHora;
+    }
 
     public Long getMedicoId() {
         return medicoId;
@@ -31,28 +37,12 @@ public class CreateCirurgiaDTO {
         this.pacienteId = pacienteId;
     }
 
-    public List<Long> getEnfermeiroIds() {
-        return enfermeiroIds;
+    public String getMotivoDaConsulta() {
+        return motivoDaConsulta;
     }
 
-    public void setEnfermeiroIds(List<Long> enfermeiroIds) {
-        this.enfermeiroIds = enfermeiroIds;
-    }
-
-    public Date getDataMarcada() {
-        return dataMarcada;
-    }
-
-    public void setDataMarcada(Date dataMarcada) {
-        this.dataMarcada = dataMarcada;
-    }
-
-    public String getMotivoDaCirurgia() {
-        return motivoDaCirurgia;
-    }
-
-    public void setMotivoDaCirurgia(String motivoDaCirurgia) {
-        this.motivoDaCirurgia = motivoDaCirurgia;
+    public void setMotivoDaConsulta(String motivoDaConsulta) {
+        this.motivoDaConsulta = motivoDaConsulta;
     }
 
     public StatusProcedimentoEnum getStatusProcedimento() {
@@ -70,4 +60,5 @@ public class CreateCirurgiaDTO {
     public void setStatusPagamento(StatusPagamentoEnum statusPagamento) {
         this.statusPagamento = statusPagamento;
     }
+
 }

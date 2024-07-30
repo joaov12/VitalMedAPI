@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.group.vitalmedapi.enums.StatusPagamentoEnum;
-import com.group.vitalmedapi.exceptions.CustomizedResponseEntityExceptionHandler;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.group.vitalmedapi.enums.StatusProcedimentoEnum;
+import com.group.vitalmedapi.exceptions.handler.CustomizedResponseEntityExceptionHandler;
 import com.group.vitalmedapi.models.Cirurgia;
 import com.group.vitalmedapi.models.Enfermeiro;
 import com.group.vitalmedapi.models.Medico;

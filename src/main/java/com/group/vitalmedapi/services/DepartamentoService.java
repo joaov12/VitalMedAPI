@@ -6,9 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.group.vitalmedapi.dtos.AddFuncionarioToDepartamentoDTO;
 import com.group.vitalmedapi.models.Departamento;
 import com.group.vitalmedapi.models.Funcionario;
-import com.group.vitalmedapi.models.dtos.AddFuncionarioToDepartamentoDTO;
 import com.group.vitalmedapi.repositories.DepartamentoRepository;
 import com.group.vitalmedapi.repositories.FuncionarioRepository;
 

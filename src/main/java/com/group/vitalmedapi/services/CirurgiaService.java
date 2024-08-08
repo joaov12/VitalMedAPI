@@ -3,17 +3,18 @@ package com.group.vitalmedapi.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.group.vitalmedapi.dtos.CreateCirurgiaDTO;
 import com.group.vitalmedapi.enums.StatusPagamentoEnum;
-import com.group.vitalmedapi.exceptions.CustomizedResponseEntityExceptionHandler;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.group.vitalmedapi.enums.StatusProcedimentoEnum;
+import com.group.vitalmedapi.exceptions.handler.CustomizedResponseEntityExceptionHandler;
 import com.group.vitalmedapi.models.Cirurgia;
 import com.group.vitalmedapi.models.Enfermeiro;
 import com.group.vitalmedapi.models.Medico;
 import com.group.vitalmedapi.models.Paciente;
-import com.group.vitalmedapi.models.dtos.CreateCirurgiaDTO;
 import com.group.vitalmedapi.repositories.CirurgiaRepository;
 import com.group.vitalmedapi.repositories.EnfermeiroRepository;
 import com.group.vitalmedapi.repositories.MedicoRepository;
@@ -50,6 +51,10 @@ public class CirurgiaService {
     }
 
     public Cirurgia addCirurgia(Cirurgia cirurgia) {
+        if (cirurgia.getStatusProcedimento() == StatusProcedimentoEnum.CONCLUIDO) {
+            throw new RuntimeException("Uma cirurgia não pode iniciar com status de CONCLUIDO");
+        }
+
         try {
             return cirurgiaRepository.save(cirurgia);
         } catch (Exception e) {
@@ -85,7 +90,8 @@ public class CirurgiaService {
                 .collect(Collectors.toList());
 
         Cirurgia cirurgia = new Cirurgia(medico, paciente, enfermeiros, createCirurgiaDTO.getDataMarcada(),
-                createCirurgiaDTO.getMotivoDaCirurgia(), createCirurgiaDTO.getStatusProcedimento(), createCirurgiaDTO.getStatusPagamento());
+                createCirurgiaDTO.getMotivoDaCirurgia(), createCirurgiaDTO.getStatusProcedimento(),
+                createCirurgiaDTO.getStatusPagamento());
 
         return cirurgiaRepository.save(cirurgia);
     }
@@ -97,37 +103,34 @@ public class CirurgiaService {
         cirurgia.setStatusProcedimento(statusProcedimento);
 
         if (statusProcedimento == StatusProcedimentoEnum.CONCLUIDO) {
-            if(!(cirurgia.getStatusPagamento() == StatusPagamentoEnum.PAGAMENTO_CONCLUIDO)){
+            if (!(cirurgia.getStatusPagamento() == StatusPagamentoEnum.PAGAMENTO_CONCLUIDO)) {
                 throw new RuntimeException("O pagamento dessa cirurgia ainda não foi feito");
             }
 
             String emailContent = "\nNome Paciente: " + cirurgia.getPaciente().getNome()
-                + "\nNome Médico: " + cirurgia.getMedico().getNome()
-                + "\nCRM: " + cirurgia.getMedico().getCrm()
-                + "\nData agendada: " + cirurgia.getDataMarcada()
-                + "\nMotivo da cirurgia: " + cirurgia.getMotivoDaCirurgia();
+                    + "\nNome Médico: " + cirurgia.getMedico().getNome()
+                    + "\nCRM: " + cirurgia.getMedico().getCrm()
+                    + "\nData agendada: " + cirurgia.getDataMarcada()
+                    + "\nMotivo da cirurgia: " + cirurgia.getMotivoDaCirurgia();
 
             // Enviar email para o paciente
             emailService.enviarEmail(
-                cirurgia.getPaciente().getEmail(),
-                "Este é o relatório de sua cirurgia, " + cirurgia.getPaciente().getNome(),
-                emailContent
-            );
+                    cirurgia.getPaciente().getEmail(),
+                    "Este é o relatório de sua cirurgia, " + cirurgia.getPaciente().getNome(),
+                    emailContent);
 
             // Enviar email para o médico
             emailService.enviarEmail(
-                cirurgia.getMedico().getEmail(),
-                "Relatório de cirurgia concluída, paciente: " + cirurgia.getPaciente().getNome(),
-                emailContent
-            );
+                    cirurgia.getMedico().getEmail(),
+                    "Relatório de cirurgia concluída, paciente: " + cirurgia.getPaciente().getNome(),
+                    emailContent);
 
             // Enviar email para cada enfermeiro
             for (Enfermeiro enfermeiro : cirurgia.getEnfermeiros()) {
                 emailService.enviarEmail(
-                    enfermeiro.getEmail(),
-                    "Relatório de cirurgia concluída, paciente: " + cirurgia.getPaciente().getNome(),
-                    emailContent
-                );
+                        enfermeiro.getEmail(),
+                        "Relatório de cirurgia concluída, paciente: " + cirurgia.getPaciente().getNome(),
+                        emailContent);
             }
         }
 
@@ -144,7 +147,7 @@ public class CirurgiaService {
 
         cirurgia.setStatusPagamento(statusPagamento);
 
-        if (statusPagamento == StatusPagamentoEnum.PAGAMENTO_CONCLUIDO){
+        if (statusPagamento == StatusPagamentoEnum.PAGAMENTO_CONCLUIDO) {
 
             String emailContent = "\nNome Paciente: " + cirurgia.getPaciente().getNome()
                     + "\nNome Médico: " + cirurgia.getMedico().getNome()
@@ -156,8 +159,7 @@ public class CirurgiaService {
             emailService.enviarEmail(
                     cirurgia.getPaciente().getEmail(),
                     "PAGAMENTO DA CIRURGIA CONCLUIDO!!! " + cirurgia.getPaciente().getNome(),
-                    emailContent
-            );
+                    emailContent);
         }
 
         try {

@@ -42,6 +42,10 @@ public class ConsultaService {
     }
 
     public Consulta addConsulta(Consulta consulta) {
+        if(consulta.getStatusProcedimento() == StatusProcedimentoEnum.CONCLUIDO){
+            throw new RuntimeException("Uma consulta não pode iniciar com status de CONCLUIDO")
+        }
+
         try {
             return consultaRepository.save(consulta);
         } catch (Exception e) {

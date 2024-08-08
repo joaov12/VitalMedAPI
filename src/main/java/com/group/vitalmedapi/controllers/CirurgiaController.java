@@ -2,6 +2,7 @@ package com.group.vitalmedapi.controllers;
 
 import java.util.List;
 
+import com.group.vitalmedapi.dtos.CreateCirurgiaDTO;
 import com.group.vitalmedapi.enums.StatusPagamentoEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.group.vitalmedapi.enums.StatusProcedimentoEnum;
 import com.group.vitalmedapi.models.Cirurgia;
-import com.group.vitalmedapi.models.dtos.CreateCirurgiaDTO;
 import com.group.vitalmedapi.services.CirurgiaService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("cirurgias")
 @Tag(name = "Cirurgia")
 public class CirurgiaController {
-    
+
     @Autowired
     CirurgiaService cirurgiaService;
 
@@ -40,26 +40,26 @@ public class CirurgiaController {
     @Operation(summary = "Obter cirurgia por ID", description = "Retorna uma cirurgia com base no ID fornecido")
     @GetMapping("/find/{id}")
     public ResponseEntity<Cirurgia> getCirurgiaById(@PathVariable("id") Long id) {
-       return ResponseEntity.status(HttpStatus.OK).body(cirurgiaService.findById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(cirurgiaService.findById(id));
     }
 
     @Operation(summary = "Adicionar cirurgia", description = "Adiciona uma nova cirurgia")
     @PostMapping("/add")
     public ResponseEntity<Cirurgia> addCirurgia(@RequestBody Cirurgia cirurgia) {
-       return ResponseEntity.status(HttpStatus.CREATED).body(cirurgiaService.addCirurgia(cirurgia));
+        return ResponseEntity.status(HttpStatus.CREATED).body(cirurgiaService.addCirurgia(cirurgia));
     }
 
     @Operation(summary = "Editar cirurgia", description = "Edita uma cirurgia existente")
     @PutMapping("/edit")
     public ResponseEntity<Cirurgia> editCirurgia(@RequestBody Cirurgia cirurgia) {
-       return ResponseEntity.status(HttpStatus.OK).body(cirurgiaService.updateCirurgia(cirurgia));
+        return ResponseEntity.status(HttpStatus.OK).body(cirurgiaService.updateCirurgia(cirurgia));
     }
 
     @Operation(summary = "Excluir cirurgia", description = "Exclui uma cirurgia com base no ID fornecido")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCirurgia(@PathVariable("id") Long id) {
-       cirurgiaService.deleteCirurgia(id); 
-       return ResponseEntity.status(HttpStatus.OK).body("Cirurgia deletada com sucesso"); 
+        cirurgiaService.deleteCirurgia(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Cirurgia deletada com sucesso");
     }
 
     @Operation(summary = "Adicionar uma cirurgia usando IDs", description = "Cria cirurgia passando apenas IDs(Médico, Paciente, Lista de ID de enfermeiros) + informações necessárias")
@@ -70,14 +70,16 @@ public class CirurgiaController {
 
     @Operation(summary = "Atualizar status do procedimento", description = "Atualiza apenas o status do procedimento de uma cirurgia existente")
     @PutMapping("/updateStatusProcedimento/{id}")
-    public ResponseEntity<Cirurgia> updateStatusProcedimento(@PathVariable("id") Long id, @RequestBody StatusProcedimentoEnum statusProcedimento) {
+    public ResponseEntity<Cirurgia> updateStatusProcedimento(@PathVariable("id") Long id,
+            @RequestBody StatusProcedimentoEnum statusProcedimento) {
         Cirurgia cirurgia = cirurgiaService.updateStatusProcedimento(id, statusProcedimento);
         return ResponseEntity.status(HttpStatus.OK).body(cirurgia);
     }
 
     @Operation(summary = "Atualizar status do pagamento", description = "Atualiza apenas o status do pagamento de uma cirurgia existente")
     @PutMapping("/updateStatusPagamento/{id}")
-    public ResponseEntity<Cirurgia> updateStatusPagamento(@PathVariable("id") Long id, @RequestBody StatusPagamentoEnum statusPagamento) {
+    public ResponseEntity<Cirurgia> updateStatusPagamento(@PathVariable("id") Long id,
+            @RequestBody StatusPagamentoEnum statusPagamento) {
         Cirurgia cirurgia = cirurgiaService.updateStatusPagamento(id, statusPagamento);
         return ResponseEntity.status(HttpStatus.OK).body(cirurgia);
     }

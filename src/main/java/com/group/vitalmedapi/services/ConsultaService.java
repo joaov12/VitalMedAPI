@@ -11,7 +11,7 @@ import com.group.vitalmedapi.enums.StatusProcedimentoEnum;
 import com.group.vitalmedapi.models.Consulta;
 import com.group.vitalmedapi.models.Medico;
 import com.group.vitalmedapi.models.Paciente;
-import com.group.vitalmedapi.models.dtos.CreateConsultaDTO;
+import com.group.vitalmedapi.dtos.CreateConsultaDTO;
 import com.group.vitalmedapi.repositories.ConsultaRepository;
 import com.group.vitalmedapi.repositories.MedicoRepository;
 import com.group.vitalmedapi.repositories.PacienteRepository;
@@ -43,7 +43,7 @@ public class ConsultaService {
 
     public Consulta addConsulta(Consulta consulta) {
         if(consulta.getStatusProcedimento() == StatusProcedimentoEnum.CONCLUIDO){
-            throw new RuntimeException("Uma consulta não pode iniciar com status de CONCLUIDO")
+            throw new RuntimeException("Uma consulta não pode iniciar com status de CONCLUIDO");
         }
 
         try {

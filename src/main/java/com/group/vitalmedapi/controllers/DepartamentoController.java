@@ -57,8 +57,8 @@ public class DepartamentoController {
    @DeleteMapping("/delete/{id}")
    public ResponseEntity<?> deleteDepartamento(@PathVariable("id") Long id) {
       departamentoService.deleteDepartamento(id);
-      return ResponseEntity.status(HttpStatus.OK).body("Departamento deletado com sucesso"); // Todo: Mudar a mensagem,
-                                                                                             // deixar uma padrão
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
+
    }
 
    @Operation(summary = "Adicionar Funcionario a um departamento", description = "Vincula um funcionario a um departamento")

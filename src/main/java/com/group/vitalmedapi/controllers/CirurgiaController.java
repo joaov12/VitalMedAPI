@@ -54,6 +54,12 @@ public class CirurgiaController {
         Link selfLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CirurgiaController.class).getCirurgiaById(id)).withSelfRel();
         cirurgiaModel.add(selfLink);
 
+        Link updateStatusProcedimentoLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CirurgiaController.class).updateStatusProcedimento(id, null)).withRel("updateStatusProcedimento");
+        cirurgiaModel.add(updateStatusProcedimentoLink);
+
+        Link updateStatusPagamentoLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CirurgiaController.class).updateStatusPagamento(id, null)).withRel("updateStatusPagamento");
+        cirurgiaModel.add(updateStatusPagamentoLink);
+
         return ResponseEntity.status(HttpStatus.OK).body(cirurgiaModel);
     }
 

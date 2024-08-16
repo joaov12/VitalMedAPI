@@ -15,6 +15,8 @@ import com.group.vitalmedapi.models.Enfermeiro;
 import com.group.vitalmedapi.services.EnfermeiroService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -23,9 +25,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class EnfermeiroController {
 
     @Autowired
-    EnfermeiroService enfermeiroService;
+    private EnfermeiroService enfermeiroService;
 
     @Operation(summary = "Obter todos os Enfermeiros", description = "Retorna uma lista de todos os enfermeiros cadastrados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de enfermeiros retornada com sucesso", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @GetMapping("/all")
     public ResponseEntity<List<EntityModel<Enfermeiro>>> getAllEnfermeiros() {
         List<Enfermeiro> enfermeiros = enfermeiroService.findAll();
@@ -43,6 +49,11 @@ public class EnfermeiroController {
     }
 
     @Operation(summary = "Obter enfermeiro por ID", description = "Retorna um enfermeiro com base no ID fornecido")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Enfermeiro retornado com sucesso", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Enfermeiro não encontrado"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @GetMapping("/find/{id}")
     public ResponseEntity<EntityModel<Enfermeiro>> getEnfermeiroById(@PathVariable("id") Long id) {
         Enfermeiro enfermeiro = enfermeiroService.findById(id);
@@ -55,6 +66,11 @@ public class EnfermeiroController {
     }
 
     @Operation(summary = "Adicionar enfermeiro", description = "Adiciona um novo enfermeiro")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Enfermeiro criado com sucesso", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @PostMapping("/add")
     public ResponseEntity<EntityModel<Enfermeiro>> addEnfermeiro(@RequestBody Enfermeiro enfermeiro) {
         Enfermeiro novoEnfermeiro = enfermeiroService.addEnfermeiro(enfermeiro);
@@ -67,6 +83,12 @@ public class EnfermeiroController {
     }
 
     @Operation(summary = "Editar enfermeiro", description = "Edita um enfermeiro existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Enfermeiro atualizado com sucesso", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+            @ApiResponse(responseCode = "404", description = "Enfermeiro não encontrado"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @PutMapping("/edit")
     public ResponseEntity<EntityModel<Enfermeiro>> editEnfermeiro(@RequestBody Enfermeiro enfermeiro) {
         Enfermeiro enfermeiroAtualizado = enfermeiroService.updateEnfermeiro(enfermeiro);
@@ -79,6 +101,11 @@ public class EnfermeiroController {
     }
 
     @Operation(summary = "Excluir enfermeiro", description = "Exclui um enfermeiro com base no ID fornecido")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Enfermeiro excluído com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Enfermeiro não encontrado"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteEnfermeiro(@PathVariable("id") Long id) {
         enfermeiroService.deleteEnfermeiro(id);

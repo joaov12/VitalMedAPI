@@ -15,6 +15,8 @@ import com.group.vitalmedapi.models.Funcionario;
 import com.group.vitalmedapi.services.FuncionarioService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -23,9 +25,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class FuncionarioController {
 
     @Autowired
-    FuncionarioService funcionarioService;
+    private FuncionarioService funcionarioService;
 
-    @Operation(summary = "Obter todos os Funcionarios", description = "Retorna uma lista de todos os funcionarios cadastrados")
+    @Operation(summary = "Obter todos os Funcionarios", description = "Retorna uma lista de todos os funcionários cadastrados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de funcionários retornada com sucesso", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @GetMapping("/all")
     public ResponseEntity<List<EntityModel<Funcionario>>> getAllFuncionarios() {
         List<Funcionario> funcionarios = funcionarioService.findAll();
@@ -42,7 +48,12 @@ public class FuncionarioController {
         return ResponseEntity.status(HttpStatus.OK).body(funcionarioModels);
     }
 
-    @Operation(summary = "Obter Funcionario por ID", description = "Retorna um funcionario com base no ID fornecido")
+    @Operation(summary = "Obter Funcionario por ID", description = "Retorna um funcionário com base no ID fornecido")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Funcionário retornado com sucesso", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Funcionário não encontrado"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @GetMapping("/find/{id}")
     public ResponseEntity<EntityModel<Funcionario>> getFuncionarioById(@PathVariable("id") Long id) {
         Funcionario funcionario = funcionarioService.findById(id);

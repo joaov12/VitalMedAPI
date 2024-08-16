@@ -16,6 +16,8 @@ import com.group.vitalmedapi.models.Departamento;
 import com.group.vitalmedapi.services.DepartamentoService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -24,9 +26,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class DepartamentoController {
 
    @Autowired
-   DepartamentoService departamentoService;
+   private DepartamentoService departamentoService;
 
    @Operation(summary = "Obter todos os Departamentos", description = "Retorna uma lista de todos os departamentos cadastrados")
+   @ApiResponses(value = {
+           @ApiResponse(responseCode = "200", description = "Lista de departamentos retornada com sucesso", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json")),
+           @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+   })
    @GetMapping("/all")
    public ResponseEntity<List<EntityModel<Departamento>>> getAllDepartamentos() {
       List<Departamento> departamentos = departamentoService.findAll();
@@ -44,6 +50,11 @@ public class DepartamentoController {
    }
 
    @Operation(summary = "Obter departamento por ID", description = "Retorna um departamento com base no ID fornecido")
+   @ApiResponses(value = {
+           @ApiResponse(responseCode = "200", description = "Departamento retornado com sucesso", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json")),
+           @ApiResponse(responseCode = "404", description = "Departamento não encontrado"),
+           @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+   })
    @GetMapping("/find/{id}")
    public ResponseEntity<EntityModel<Departamento>> getDepartamentoById(@PathVariable("id") Long id) {
       Departamento departamento = departamentoService.findById(id);
@@ -56,6 +67,11 @@ public class DepartamentoController {
    }
 
    @Operation(summary = "Adicionar departamento", description = "Adiciona um novo departamento")
+   @ApiResponses(value = {
+           @ApiResponse(responseCode = "201", description = "Departamento criado com sucesso", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json")),
+           @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+           @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+   })
    @PostMapping("/add")
    public ResponseEntity<EntityModel<Departamento>> addDepartamento(@RequestBody Departamento departamento) {
       Departamento novoDepartamento = departamentoService.addDepartamento(departamento);
@@ -68,6 +84,12 @@ public class DepartamentoController {
    }
 
    @Operation(summary = "Editar departamento", description = "Edita um departamento existente")
+   @ApiResponses(value = {
+           @ApiResponse(responseCode = "200", description = "Departamento atualizado com sucesso", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json")),
+           @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+           @ApiResponse(responseCode = "404", description = "Departamento não encontrado"),
+           @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+   })
    @PutMapping("/edit")
    public ResponseEntity<EntityModel<Departamento>> editDepartamento(@RequestBody Departamento departamento) {
       Departamento departamentoAtualizado = departamentoService.updateDepartamento(departamento);
@@ -80,6 +102,11 @@ public class DepartamentoController {
    }
 
    @Operation(summary = "Excluir departamento", description = "Exclui um departamento com base no ID fornecido")
+   @ApiResponses(value = {
+           @ApiResponse(responseCode = "204", description = "Departamento excluído com sucesso"),
+           @ApiResponse(responseCode = "404", description = "Departamento não encontrado"),
+           @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+   })
    @DeleteMapping("/delete/{id}")
    public ResponseEntity<?> deleteDepartamento(@PathVariable("id") Long id) {
       departamentoService.deleteDepartamento(id);
@@ -87,6 +114,12 @@ public class DepartamentoController {
    }
 
    @Operation(summary = "Adicionar Funcionario a um departamento", description = "Vincula um funcionario a um departamento")
+   @ApiResponses(value = {
+           @ApiResponse(responseCode = "200", description = "Funcionário adicionado ao departamento com sucesso", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json")),
+           @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+           @ApiResponse(responseCode = "404", description = "Departamento ou Funcionário não encontrado"),
+           @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+   })
    @PutMapping("/addFuncionario")
    public ResponseEntity<EntityModel<Departamento>> addFuncionarioToDepartamento(@RequestBody AddFuncionarioToDepartamentoDTO dto) {
       Departamento departamento = departamentoService.addFuncionarioToDepartamento(dto);

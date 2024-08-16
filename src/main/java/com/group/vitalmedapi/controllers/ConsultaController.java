@@ -18,6 +18,8 @@ import com.group.vitalmedapi.models.Consulta;
 import com.group.vitalmedapi.services.ConsultaService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -29,6 +31,10 @@ public class ConsultaController {
     ConsultaService consultaService;
 
     @Operation(summary = "Obter todas as Consultas", description = "Retorna uma lista de todas as consultas cadastradas")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Lista de consultas retornada com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @GetMapping("/all")
     public ResponseEntity<List<EntityModel<Consulta>>> getAllConsultas() {
         List<Consulta> consultas = consultaService.findAll();
@@ -46,6 +52,11 @@ public class ConsultaController {
     }
 
     @Operation(summary = "Obter consulta por ID", description = "Retorna uma consulta com base no ID fornecido")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Consulta retornada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Consulta não encontrada"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @GetMapping("/find/{id}")
     public ResponseEntity<EntityModel<Consulta>> getConsultaById(@PathVariable("id") Long id) {
         Consulta consulta = consultaService.findById(id);
@@ -63,8 +74,12 @@ public class ConsultaController {
         return ResponseEntity.status(HttpStatus.OK).body(consultaModel);
     }
 
-
     @Operation(summary = "Adicionar consulta", description = "Adiciona uma nova consulta")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Consulta adicionada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @PostMapping("/add")
     public ResponseEntity<EntityModel<Consulta>> addConsulta(@RequestBody Consulta consulta) {
         Consulta novaConsulta = consultaService.addConsulta(consulta);
@@ -77,6 +92,11 @@ public class ConsultaController {
     }
 
     @Operation(summary = "Editar consulta", description = "Edita uma consulta existente")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Consulta editada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Consulta não encontrada"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @PutMapping("/edit")
     public ResponseEntity<EntityModel<Consulta>> editConsulta(@RequestBody Consulta consulta) {
         Consulta consultaAtualizada = consultaService.updateConsulta(consulta);
@@ -89,6 +109,11 @@ public class ConsultaController {
     }
 
     @Operation(summary = "Excluir consulta", description = "Exclui uma consulta com base no ID fornecido")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Consulta excluída com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Consulta não encontrada"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteConsulta(@PathVariable("id") Long id) {
         consultaService.deleteConsulta(id);
@@ -96,6 +121,11 @@ public class ConsultaController {
     }
 
     @Operation(summary = "Adicionar uma consulta usando IDs", description = "Cria consulta passando apenas ID do médico e paciente + informações necessárias")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Consulta criada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @PostMapping("/createWID")
     public ResponseEntity<EntityModel<Consulta>> createConsulta(@RequestBody CreateConsultaDTO dto) {
         Consulta consulta = consultaService.createConsulta(dto);
@@ -108,6 +138,12 @@ public class ConsultaController {
     }
 
     @Operation(summary = "Atualizar status do procedimento", description = "Atualiza apenas o status do procedimento de uma consulta existente")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Status do procedimento atualizado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Consulta não encontrada"),
+            @ApiResponse(responseCode = "400", description = "Status do procedimento inválido"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @PutMapping("/updateStatus/{id}")
     public ResponseEntity<EntityModel<Consulta>> updateStatusProcedimento(@PathVariable("id") Long id,
                                                                           @RequestBody StatusProcedimentoEnum statusProcedimento) {
@@ -121,6 +157,12 @@ public class ConsultaController {
     }
 
     @Operation(summary = "Atualizar status do pagamento", description = "Atualiza apenas o status do pagamento de uma consulta existente")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Status do pagamento atualizado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Consulta não encontrada"),
+            @ApiResponse(responseCode = "400", description = "Status de pagamento inválido"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @PutMapping("/updateStatusPagamento/{id}")
     public ResponseEntity<EntityModel<Consulta>> updateStatusPagamento(@PathVariable("id") Long id,
                                                                        @RequestBody StatusPagamentoEnum statusPagamento) {

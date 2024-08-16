@@ -1,12 +1,15 @@
 package com.group.vitalmedapi.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.group.vitalmedapi.models.Funcionario;
 import com.group.vitalmedapi.services.FuncionarioService;
@@ -14,27 +17,40 @@ import com.group.vitalmedapi.services.FuncionarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
-
 @RestController
 @RequestMapping("/funcionarios")
 @Tag(name = "Funcionario")
 public class FuncionarioController {
-    
+
     @Autowired
     FuncionarioService funcionarioService;
 
     @Operation(summary = "Obter todos os Funcionarios", description = "Retorna uma lista de todos os funcionarios cadastrados")
     @GetMapping("/all")
-    public ResponseEntity<List<Funcionario>> getAllFuncionarios() {
-        return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.findAll());
+    public ResponseEntity<List<EntityModel<Funcionario>>> getAllFuncionarios() {
+        List<Funcionario> funcionarios = funcionarioService.findAll();
+
+        List<EntityModel<Funcionario>> funcionarioModels = funcionarios.stream()
+                .map(funcionario -> {
+                    EntityModel<Funcionario> funcionarioModel = EntityModel.of(funcionario);
+                    Link selfLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(FuncionarioController.class).getFuncionarioById(funcionario.getId())).withSelfRel();
+                    funcionarioModel.add(selfLink);
+                    return funcionarioModel;
+                })
+                .collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK).body(funcionarioModels);
     }
 
     @Operation(summary = "Obter Funcionario por ID", description = "Retorna um funcionario com base no ID fornecido")
     @GetMapping("/find/{id}")
-    public ResponseEntity<Funcionario> getFuncionarioById(@PathVariable("id") Long id) {
-       return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.findById(id));
+    public ResponseEntity<EntityModel<Funcionario>> getFuncionarioById(@PathVariable("id") Long id) {
+        Funcionario funcionario = funcionarioService.findById(id);
+
+        EntityModel<Funcionario> funcionarioModel = EntityModel.of(funcionario);
+        Link selfLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(FuncionarioController.class).getFuncionarioById(id)).withSelfRel();
+        funcionarioModel.add(selfLink);
+
+        return ResponseEntity.status(HttpStatus.OK).body(funcionarioModel);
     }
 }

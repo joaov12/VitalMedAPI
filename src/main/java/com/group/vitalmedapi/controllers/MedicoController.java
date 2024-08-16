@@ -21,7 +21,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/medicos")
-@Tag(name = "Medico")
+@Tag(name = "Medicos")
 public class MedicoController {
 
     @Autowired

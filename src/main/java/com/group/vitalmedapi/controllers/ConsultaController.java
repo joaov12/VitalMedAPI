@@ -54,8 +54,15 @@ public class ConsultaController {
         Link selfLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ConsultaController.class).getConsultaById(id)).withSelfRel();
         consultaModel.add(selfLink);
 
+        Link updateStatusProcedimentoLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ConsultaController.class).updateStatusProcedimento(id, null)).withRel("updateStatusProcedimento");
+        consultaModel.add(updateStatusProcedimentoLink);
+
+        Link updateStatusPagamentoLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ConsultaController.class).updateStatusPagamento(id, null)).withRel("updateStatusPagamento");
+        consultaModel.add(updateStatusPagamentoLink);
+
         return ResponseEntity.status(HttpStatus.OK).body(consultaModel);
     }
+
 
     @Operation(summary = "Adicionar consulta", description = "Adiciona uma nova consulta")
     @PostMapping("/add")

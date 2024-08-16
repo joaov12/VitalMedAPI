@@ -55,7 +55,7 @@ public class MedicoController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteMedico(@PathVariable("id") Long id) {
        medicoService.deleteMedico(id); 
-       return ResponseEntity.status(HttpStatus.OK).body("Medico deletado com sucesso");
+       return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
     }
 
 }

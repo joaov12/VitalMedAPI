@@ -59,7 +59,7 @@ public class CirurgiaController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCirurgia(@PathVariable("id") Long id) {
         cirurgiaService.deleteCirurgia(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Cirurgia deletada com sucesso");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
     }
 
     @Operation(summary = "Adicionar uma cirurgia usando IDs", description = "Cria cirurgia passando apenas IDs(Médico, Paciente, Lista de ID de enfermeiros) + informações necessárias")

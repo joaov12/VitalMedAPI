@@ -58,7 +58,7 @@ public class ConsultaController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteConsulta(@PathVariable("id") Long id) {
         consultaService.deleteConsulta(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Consulta deletada com sucesso");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
     }
 
     @Operation(summary = "Adicionar uma consulta usando IDs", description = "Cria consulta passando apenas Id do médico e paciente + informações necessárias")

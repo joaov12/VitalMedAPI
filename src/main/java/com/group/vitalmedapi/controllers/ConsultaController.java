@@ -1,18 +1,15 @@
 package com.group.vitalmedapi.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.group.vitalmedapi.dtos.CreateConsultaDTO;
 import com.group.vitalmedapi.enums.StatusPagamentoEnum;
@@ -27,60 +24,105 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("consultas")
 @Tag(name = "Consulta")
 public class ConsultaController {
+
     @Autowired
     ConsultaService consultaService;
 
-    @Operation(summary = "Obter todas as Consultas", description = "Retorna uma lista de todas as consultas cadastrados")
+    @Operation(summary = "Obter todas as Consultas", description = "Retorna uma lista de todas as consultas cadastradas")
     @GetMapping("/all")
-    public ResponseEntity<List<Consulta>> getAllConsultas() {
-        return ResponseEntity.status(HttpStatus.OK).body(consultaService.findAll());
+    public ResponseEntity<List<EntityModel<Consulta>>> getAllConsultas() {
+        List<Consulta> consultas = consultaService.findAll();
+
+        List<EntityModel<Consulta>> consultaModels = consultas.stream()
+                .map(consulta -> {
+                    EntityModel<Consulta> consultaModel = EntityModel.of(consulta);
+                    Link selfLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ConsultaController.class).getConsultaById(consulta.getId())).withSelfRel();
+                    consultaModel.add(selfLink);
+                    return consultaModel;
+                })
+                .collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK).body(consultaModels);
     }
 
     @Operation(summary = "Obter consulta por ID", description = "Retorna uma consulta com base no ID fornecido")
     @GetMapping("/find/{id}")
-    public ResponseEntity<Consulta> getConsultaById(@PathVariable("id") Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(consultaService.findById(id));
+    public ResponseEntity<EntityModel<Consulta>> getConsultaById(@PathVariable("id") Long id) {
+        Consulta consulta = consultaService.findById(id);
+
+        EntityModel<Consulta> consultaModel = EntityModel.of(consulta);
+        Link selfLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ConsultaController.class).getConsultaById(id)).withSelfRel();
+        consultaModel.add(selfLink);
+
+        return ResponseEntity.status(HttpStatus.OK).body(consultaModel);
     }
 
     @Operation(summary = "Adicionar consulta", description = "Adiciona uma nova consulta")
     @PostMapping("/add")
-    public ResponseEntity<Consulta> addConsulta(@RequestBody Consulta consulta) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(consultaService.addConsulta(consulta));
+    public ResponseEntity<EntityModel<Consulta>> addConsulta(@RequestBody Consulta consulta) {
+        Consulta novaConsulta = consultaService.addConsulta(consulta);
+
+        EntityModel<Consulta> consultaModel = EntityModel.of(novaConsulta);
+        Link selfLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ConsultaController.class).getConsultaById(novaConsulta.getId())).withSelfRel();
+        consultaModel.add(selfLink);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(consultaModel);
     }
 
     @Operation(summary = "Editar consulta", description = "Edita uma consulta existente")
     @PutMapping("/edit")
-    public ResponseEntity<Consulta> editConsulta(@RequestBody Consulta consulta) {
-        return ResponseEntity.status(HttpStatus.OK).body(consultaService.updateConsulta(consulta));
+    public ResponseEntity<EntityModel<Consulta>> editConsulta(@RequestBody Consulta consulta) {
+        Consulta consultaAtualizada = consultaService.updateConsulta(consulta);
+
+        EntityModel<Consulta> consultaModel = EntityModel.of(consultaAtualizada);
+        Link selfLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ConsultaController.class).getConsultaById(consultaAtualizada.getId())).withSelfRel();
+        consultaModel.add(selfLink);
+
+        return ResponseEntity.status(HttpStatus.OK).body(consultaModel);
     }
 
     @Operation(summary = "Excluir consulta", description = "Exclui uma consulta com base no ID fornecido")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteConsulta(@PathVariable("id") Long id) {
         consultaService.deleteConsulta(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @Operation(summary = "Adicionar uma consulta usando IDs", description = "Cria consulta passando apenas Id do médico e paciente + informações necessárias")
+    @Operation(summary = "Adicionar uma consulta usando IDs", description = "Cria consulta passando apenas ID do médico e paciente + informações necessárias")
     @PostMapping("/createWID")
-    public ResponseEntity<?> createConsulta(@RequestBody CreateConsultaDTO dto) {
+    public ResponseEntity<EntityModel<Consulta>> createConsulta(@RequestBody CreateConsultaDTO dto) {
         Consulta consulta = consultaService.createConsulta(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(consulta);
+
+        EntityModel<Consulta> consultaModel = EntityModel.of(consulta);
+        Link selfLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ConsultaController.class).getConsultaById(consulta.getId())).withSelfRel();
+        consultaModel.add(selfLink);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(consultaModel);
     }
 
     @Operation(summary = "Atualizar status do procedimento", description = "Atualiza apenas o status do procedimento de uma consulta existente")
     @PutMapping("/updateStatus/{id}")
-    public ResponseEntity<Consulta> updateStatusProcedimento(@PathVariable("id") Long id,
-            @RequestBody StatusProcedimentoEnum statusProcedimento) {
-        Consulta consulta = consultaService.updateStatusProcedimento(id, statusProcedimento);
-        return ResponseEntity.status(HttpStatus.OK).body(consulta);
+    public ResponseEntity<EntityModel<Consulta>> updateStatusProcedimento(@PathVariable("id") Long id,
+                                                                          @RequestBody StatusProcedimentoEnum statusProcedimento) {
+        Consulta consultaAtualizada = consultaService.updateStatusProcedimento(id, statusProcedimento);
+
+        EntityModel<Consulta> consultaModel = EntityModel.of(consultaAtualizada);
+        Link selfLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ConsultaController.class).getConsultaById(consultaAtualizada.getId())).withSelfRel();
+        consultaModel.add(selfLink);
+
+        return ResponseEntity.status(HttpStatus.OK).body(consultaModel);
     }
 
     @Operation(summary = "Atualizar status do pagamento", description = "Atualiza apenas o status do pagamento de uma consulta existente")
     @PutMapping("/updateStatusPagamento/{id}")
-    public ResponseEntity<Consulta> updateStatusPagamento(@PathVariable("id") Long id,
-            @RequestBody StatusPagamentoEnum statusPagamento) {
-        Consulta consulta = consultaService.updateStatusPagamento(id, statusPagamento);
-        return ResponseEntity.status(HttpStatus.OK).body(consulta);
+    public ResponseEntity<EntityModel<Consulta>> updateStatusPagamento(@PathVariable("id") Long id,
+                                                                       @RequestBody StatusPagamentoEnum statusPagamento) {
+        Consulta consultaAtualizada = consultaService.updateStatusPagamento(id, statusPagamento);
+
+        EntityModel<Consulta> consultaModel = EntityModel.of(consultaAtualizada);
+        Link selfLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ConsultaController.class).getConsultaById(consultaAtualizada.getId())).withSelfRel();
+        consultaModel.add(selfLink);
+
+        return ResponseEntity.status(HttpStatus.OK).body(consultaModel);
     }
 }

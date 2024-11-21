@@ -58,35 +58,6 @@ Este projeto está sendo desenvolvido para a disciplina de Desenvolvimento Web I
 
    ![swagger](/assets/swagger.png)
 
-## 🌐 Endpoints da API (Em desenvolvimento)
-
-Aqui estão alguns dos principais endpoints disponíveis na API:
-
-- **Pacientes**
-  - `GET /pacientes`: Lista todos os pacientes
-  - `POST /pacientes`: Cria um novo paciente
-  - `GET /pacientes/{id}`: Consulta um paciente pelo ID
-  - `PUT /pacientes/{id}`: Atualiza os dados de um paciente
-  - `DELETE /pacientes/{id}`: Remove um paciente
-
-- **Médicos**
-  - `GET /medicos`: Lista todos os médicos
-  - `POST /medicos`: Cria um novo médico
-  - `GET /medicos/{id}`: Consulta um médico pelo ID
-  - `PUT /medicos/{id}`: Atualiza os dados de um médico
-  - `DELETE /medicos/{id}`: Remove um médico
-
-- **Consultas**
-  - `GET /consultas`: Lista todas as consultas
-  - `POST /consultas`: Agenda uma nova consulta
-  - `GET /consultas/{id}`: Consulta uma consulta pelo ID
-  - `PUT /consultas/{id}`: Atualiza os dados de uma consulta
-  - `DELETE /consultas/{id}`: Cancela uma consulta
-
----
-
-   🔜🔜🔜🔜🔜🔜🔜🔜🔜
-
 
 ## 💻 Desenvolvedores
 - [Clarice Alves](https://github.com/claricealvs)
